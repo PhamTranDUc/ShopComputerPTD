@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+
+<head th:replace="page_blank :: head">
+
+</head>
+
+<body>
+	<div th:replace="page_blank :: header"></div>
+
+	<div th:insert="page_blank :: sidebar"></div>
+
+	<main id="main" class="main">
+		<div class="pagetitle">
+			<h1>Dashboard</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="authen.html">Home</a></li>
+					<li class="breadcrumb-item active">Dashboard</li>
+				</ol>
+			</nav>
+		</div>
+		<div th:fragment="content">
+			<div th:if="${message != null}" class="alert alert-success text-center">
+				[[${message}]]
+			</div>
+
+			<a class="btn btn-primary" th:href="@{/users/formUser}">Thêm User mới</a>
+			<!-- Vị trí hiển thị bảng -->
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Image</th>
+						<th scope="col">First Name</th>
+						<th scope="col">Last Name</th>
+						<th scope="col">Email</th>
+						<th scope="col">Enable</th>
+						<th scope="col">Phone Number</th>
+						<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+					<tr th:each="user : ${listUser}">
+						<th scope="row">[[${user.id}]]</th>
+						<td><img></td>
+						<td>[[${user.firstName}]]</td>
+						<td>[[${user.lastName}]]</td>
+						<td>[[${user.email}]]</td>
+						<td>
+							<th:block th:if="${user.enable == true}">
+								<a class="fa-solid fa-circle-check fa-2xl" style="color: #0e770e;"
+									th:href="@{'/users/'+${user.id}+'?enable='+${user.enable}}"></a>
+							</th:block>
+							<th:block th:unless="${user.enable == true}">
+								<a class="fa-solid fa-circle fa-2xl" style="color: #bbc3bb;"
+									th:href="@{'/users/'+${user.id}+'?enable='+${user.enable}}"></a>
+							</th:block>
+						</td>
+						<td>[[${user.phoneNumber}]]</td>
+						<td>
+							<a type="button" class="btn btn-secondary" th:href="@{'/users/detail/'+${user.id}}">Edit</a>
+							<a type="button" class="btn btn-danger"
+								th:href="@{'/users/delete/'+${user.id}}">Delete</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<div th:if="${numberUser>6}" class="d-flex justify-content-center">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:class="${currentPage==1 ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+								th:href="@{'/users/page/1?'+'sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">First</a>
+						</li>
+						<li th:class="${currentPage==1 ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+								th:href="@{'/users/page/'+${currentPage-1}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Previous</a>
+						</li>
+						<li th:each="i: ${#numbers.sequence(1,totalPage)}"
+							th:class="${currentPage==i? 'page-item active':'page-item'}"><a class="page-link"
+								th:href="@{'/users/page/'+${i}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">[[${i}]]</a>
+						</li>
+						<li th:class="${currentPage==totalPage ? 'page-item disabled' : 'page-item'}"><a
+								class="page-link"
+								th:href="@{'/users/page/'+${currentPage+1}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Next</a>
+						</li>
+						<li th:class="${currentPage==totalPage ? 'page-item disabled' : 'page-item'}"><a
+								class="page-link"
+								th:href="@{'/users/page/'+${totalPage}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Last</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+		</div>
+		<!-- End Page Title -->
+	</main>
+
+
+	<div th:replace="page_blank :: footer"></div>
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+			class="bi bi-arrow-up-short"></i></a>
+	<div th:replace="page_blank :: js"></div>
+
+</body>
+
+</html>
