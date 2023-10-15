@@ -9,12 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ShopComputer.EntityCommon.User;
-
-
-
 @Service
 public class UserService {
 	@Autowired
@@ -30,8 +29,9 @@ public class UserService {
 	}
 	
 	
-	public void saveUser(User user) {
+	public User saveUser(User user) {
 		userRepository.save(user);
+		return user;
 	}
 	
 	public Long deleteUserById(Long id) {
@@ -47,5 +47,17 @@ public class UserService {
     
     public User findById(Long id) {
     	return userRepository.findById(id).get();
+    }
+    
+    public String encodePassword(String passWord) {
+        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+    	return passwordEncoder.encode(passWord);
+    }
+    public User findByEmail(String email) {
+    	User user = userRepository.findByEmail(email);
+    	if(user != null) {
+    		return user;
+    	}
+    	return null;
     }
 }

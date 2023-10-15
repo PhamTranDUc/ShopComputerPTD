@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8" />
+	<title>Home - Shopme Admim</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+	<div class="container text-align">
+		<div class="d-flex flex-column align-items-center justify-content-center">
+			<img th:src="@{/image/computerShopIcon.png}" class="mb-3" width="200px" style="margin-top: 50px;">
+			<div th:if="${param.error}">
+				<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+			</div>
+			<div th:if="${param.logout}">
+				<p class="text-warning">You have been logged out</p>
+			</div>
+			<form th:action="@{/login}" method="post" class="w-50">
+				<div class="mb-3">
+					<label for="exampleInputEmail1" class="form-label">Email address</label>
+					<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+					
+				</div>
+				<div class="mb-3">
+					<label for="exampleInputPassword1" class="form-label">Password</label>
+					<input type="password" class="form-control" id="exampleInputPassword1" name="password">
+				</div>
+				 <div class="mb-3 form-check">
+	                  <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember-me">
+	                  <label class="form-check-label" for="exampleCheck1">Remember me</label>
+	             </div>
+				<button type="submit" class="btn btn-primary">Login</button>
+			</form>
+		</div>
+		
+	</div>
+
+	<!-- Your content goes here -->
+</body>
+
+
+
+
+</html>

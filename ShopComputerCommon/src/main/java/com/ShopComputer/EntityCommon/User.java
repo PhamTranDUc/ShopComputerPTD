@@ -9,7 +9,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 	
 	@Column(nullable = false)
@@ -24,9 +24,13 @@ public class User {
 	@Column(nullable = false)
 	private String phoneNumber;
 	
+	private String image;
+	
 	private boolean enable;
 	
-	@ManyToMany
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "user_role",
 			joinColumns = @JoinColumn(name = "user_id"),
@@ -136,6 +140,22 @@ public class User {
 		this.password = password;
 		this.phoneNumber = phoneNumber;
 		this.enable = enable;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+	@Transient
+	public String getPathImage() {
+		if(this.id == null || this.image== null) {
+			return "/image/default-user.jpg";
+		}
+		return "/user-photos/"+this.id+"/"+this.image;
 	}
 
 
