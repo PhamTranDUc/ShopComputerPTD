@@ -1,5 +1,8 @@
 package com.ShopComputer.EntityCommon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +17,14 @@ public class Brand {
 	private String name;
 	
 	private String image;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name= "brands_categories",
+	joinColumns = @JoinColumn(name = "brand_id"),
+	inverseJoinColumns = @JoinColumn(name="category_id")
+    )
+	private List<Category> categories = new ArrayList<>();
 
 	public Brand() {
 		super();
@@ -61,5 +72,14 @@ public class Brand {
 			}
 		return "/brand-photos/"+this.id+"/"+this.image;
 	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+	
 
 }

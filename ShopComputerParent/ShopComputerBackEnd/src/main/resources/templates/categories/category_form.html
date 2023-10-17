@@ -25,49 +25,63 @@
 				[[${message}]]
 			</div>
 			<!-- Vị trí hiển thị bảng -->
-			<form th:object="${brand}" method="post" th:action="@{/brands/new}" style="max-width: 700px;margin:0 auto"
-				onsubmit="return checkEmailUnique(this);" enctype="multipart/form-data">
+			<form th:object="${category}" method="post" th:action="@{/categories/new}"
+				style="max-width: 700px;margin:0 auto" onsubmit="return checkEmailUnique(this);"
+				enctype="multipart/form-data">
 				<input type="hidden" th:field="*{id}" id="id">
 
 				<div class="border border-secondary rounder p-3">
 					<div class="form-group row">
-						<label for="email" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Name</label>
+						<label for="name" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Name</label>
 						<div class="col-sm-8">
 							<input type="text" th:field="*{name}" id="name" class="form-control" name="name" required>
 						</div>
 
 					</div>
 					<div class="form-group row">
-						<select class="form-select" aria-label="Default select example" multiple
-							th:field="*{categories}" id="categories">
+						<label for="alias" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Alias</label>
+						<div class="col-sm-8">
+							<input type="text" th:field="*{alias}" id="alias" class="form-control" name="alias"
+								required>
+						</div>
 
-							<th:block th:each="cat : ${listCategories}">
-								<option th:value=${cat.id} th:text="${cat.name}"></option>
-							</th:block>
-
-						</select>
 					</div>
 
+					<div class="form-group row">
+						<label class="col-sm-4 col-form-label">Parent Category:</label>
+						<div class="col-sm-8">
+							<select class="form-control" th:field="*{categoryParent}">
+								<option value="0">[No Parent]</option>
 
+								<th:block th:each="cat : ${listCategories}">
+									<option th:value="${cat.id}">[[${cat.name}]]</option>
+								</th:block>
+
+							</select>
+						</div>
+					</div>
+
+					<!--					listCategories-->
 					<div class="form-group row">
 						<label class="col-sm-4 col-form-label">Photos :</label>
 						<div class="col-sm-8">
 							<input type="hidden" th:field="*{image}">
-							<th:block th:if="${brand.id == null}">
-								<input type="file" id="fileImage" accept="image/png,image/jpeg" class="mb-2" name="photo" required>
+							<th:block th:if="${category.id == null}">
+								<input type="file" id="fileImage" accept="image/png,image/jpeg" class="mb-2"
+									name="photo" required>
 							</th:block>
-							
-							<th:block th:if="${brand.id != null}">
-								<input type="file" id="fileImage" accept="image/png,image/jpeg" class="mb-2" name="photo" >
+							<th:block th:if="${category.id != null}">
+								<input type="file" id="fileImage" accept="image/png,image/jpeg" class="mb-2"
+									name="photo">
 							</th:block>
-							
+
 							<!--							<img id="thumbnail" alt="Photos preview" th:src="@{${user.photosImagePath}}"-->
 							<!--								style="width: 100px;" class="img-fluid" />-->
 						</div>
 					</div>
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary m-3">Save</button>
-						<a type="button" class="btn btn-secondary" id="buttonCancel" th:href="@{/brands}">Cancel</a>
+						<a type="button" class="btn btn-secondary" id="buttonCancel" th:href="@{/categories}">Cancel</a>
 					</div>
 
 

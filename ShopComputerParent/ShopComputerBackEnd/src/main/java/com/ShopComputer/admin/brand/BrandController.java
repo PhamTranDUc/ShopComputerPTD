@@ -18,11 +18,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ShopComputer.EntityCommon.Brand;
 import com.ShopComputer.EntityCommon.User;
 import com.ShopComputer.admin.FileUploadUtil;
+import com.ShopComputer.admin.category.CategoryService;
 
 @Controller
 public class BrandController {
 	@Autowired
 	private BrandService brandService;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	@GetMapping("/brands")
 	public String getBrands(Model model) {
@@ -47,17 +51,25 @@ public class BrandController {
 	public String getFormAddBrand(Model model) {
 		Brand brand = new Brand();
 		model.addAttribute("brand", brand);
+		model.addAttribute("listCategories",categoryService.getListCategoriesForForm());
 		return "brands/brand_form";
 	}
 	
 	@PostMapping("/brands/new")
 	public String saveBrand(Brand brand,RedirectAttributes redirectAttributes,@RequestParam("photo") MultipartFile multipartFile) throws IOException {
-		String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		brand.setImage(fileName);
-		Brand brandSave= brandService.save(brand);
-		 String uploadDir="../brand-photos/"+brandSave.getId();
-         FileUploadUtil.cleanDir(uploadDir);
-         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		if(!multipartFile.isEmpty()) {
+			String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			brand.setImage(fileName);
+			Brand brandSave= brandService.save(brand);
+			 String uploadDir="../brand-photos/"+brandSave.getId();
+	         FileUploadUtil.cleanDir(uploadDir);
+	         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		}else {
+			Brand brandTmp= brandService.getById(brand.getId());
+			brand.setImage(brandTmp.getImage());
+			Brand brandSave= brandService.save(brand);
+		}
+
 		if(brand.getId() == null) {
 			redirectAttributes.addFlashAttribute("message","Thương hiệu có tên là "+brand.getName()+" đã được lưu lại !");
 		}else {
@@ -81,6 +93,7 @@ public class BrandController {
 	public String getDetailBrand(@PathVariable("id") Integer id,Model model) {
 		Brand brand = brandService.getById(id);
 		model.addAttribute("brand", brand);
+		model.addAttribute("listCategories",categoryService.getListCategoriesForForm());
 		return "brands/brand_form";
 	}
 }

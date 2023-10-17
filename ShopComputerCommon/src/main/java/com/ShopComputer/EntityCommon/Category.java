@@ -1,16 +1,21 @@
 package com.ShopComputer.EntityCommon;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 
 @Entity
 public class Category {
@@ -35,6 +40,10 @@ public class Category {
 	@OneToMany(mappedBy = "categoryParent")
 	@OrderBy("name asc")
 	private Set<Category> children = new HashSet<>();
+	
+	
+	@ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)
+	private List<Brand> brands= new ArrayList<>();
 
 	public Category() {
 		super();
@@ -150,8 +159,41 @@ public class Category {
 	public void setChildren(HashSet<Category> children) {
 		this.children = children;
 	}
+
+
+
+	public Category(Integer id, String name, String alias) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.alias = alias;
+	}
 	
-	
+	@Transient
+	public String getPathImage() {
+		if( this.image == null || this.image.equals("")) {
+			return "/image/imgDefault.png";	
+			}
+		return "/category-photos/"+this.id+"/"+this.image;
+	}
+
+
+
+	public List<Brand> getBrands() {
+		return brands;
+	}
+
+
+
+	public void setBrands(List<Brand> brands) {
+		this.brands = brands;
+	}
+
+
+
+	public void setChildren(Set<Category> children) {
+		this.children = children;
+	}
 	
 
 }

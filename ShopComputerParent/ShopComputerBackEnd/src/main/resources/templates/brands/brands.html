@@ -31,20 +31,28 @@
 				<thead>
 					<tr>
 						<th scope="col">
-						<a th:href="@{'/brands/page/'+${currentPage}+'?sortBy=id'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
-							ID</a>
-						<i th:if="${sortType.equals('asc')&&sortBy.equals('id')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('id')}" class="fa-solid fa-caret-down"></i>
+							<a
+								th:href="@{'/brands/page/'+${currentPage}+'?sortBy=id'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+								ID</a>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('id')}" class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('id')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
 						<th scope="col">Image</th>
 						<th scope="col">
-							<a th:href="@{'/brands/page/'+${currentPage}+'?sortBy=name'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+							<a
+								th:href="@{'/brands/page/'+${currentPage}+'?sortBy=name'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
 								Name
 							</a>
-							<i th:if="${sortType.equals('asc')&&sortBy.equals('name')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('name')}" class="fa-solid fa-caret-down"></i>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('name')}"
+								class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('name')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
-				
+						<th>
+							Danh mục
+						</th>
+
 						<th scope="col">Action</th>
 
 					</tr>
@@ -54,8 +62,14 @@
 						<th scope="row">[[${brand.id}]]</th>
 						<td><img th:src="@{${brand.pathImage}}" width="200px"></td>
 						<td scope="row">[[${brand.name}]]</td>
+						<td scope="row">
+							<th:block th:each="cat : ${brand.categories}">
+								<span class="badge bg-secondary">[[${cat.name}]]</span>
+							</th:block>
+						</td>
 						<td>
-							<a type="button" class="btn btn-secondary" th:href="@{'/brands/detail/'+${brand.id}}">Edit</a>
+							<a type="button" class="btn btn-secondary"
+								th:href="@{'/brands/detail/'+${brand.id}}">Edit</a>
 							<a type="button" class="btn btn-danger"
 								th:href="@{'/brands/delete/'+${brand.id}}">Delete</button>
 						</td>
