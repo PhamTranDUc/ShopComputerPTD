@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="page_blank :: head">
+</head>
+
+<body>
+
+	<div th:replace="page_blank :: header"></div>
+
+	<div th:replace="page_blank :: sidebar"></div>
+
+	<main id="main" class="main" th:fragment="main">
+		<div class="pagetitle">
+			<h1>Dashboard</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="authen.html">Home</a></li>
+					<li class="breadcrumb-item active">Dashboard</li>
+				</ol>
+			</nav>
+		</div>
+		<form th:action="@{/products/new}" method="post" onsubmit="return checkUnique(this)"
+			enctype="multipart/form-data" th:object="${product}">
+			<input type="hidden" th:field="*{id}" />
+			<div>
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#overview"
+							role="tab">Overview</a> </li>
+					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#description"
+							role="tab">Description</a> </li>
+					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#images" role="tab">Images</a>
+					</li>
+					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#details"
+							role="tab">Details</a>
+					</li>
+					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#shipping"
+							role="tab">Shipping</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active p-3" id="overview" role="tabpanel">
+						<div th:replace="products/product_overview :: content"></div>
+					</div>
+					<div class="tab-pane" id="description" role="tabpanel">
+						<div th:replace="products/product_description :: content"></div>
+					</div>
+					<div class="tab-pane" id="images" role="tabpanel">
+						<div th:replace="products/product_images :: content"></div>
+					</div>
+					<div class="tab-pane" id="details" role="tabpanel">
+						<div th:replace="products/product_details :: content"></div>
+						<br>
+						<br>
+						<a class="btn btn-secondary" href="javascript:addNewDetail()" style="margin-top: 15px;">Add new
+							detail</a>
+					</div>
+					<div class="tab-pane" id="shipping" role="tabpanel">
+						<div th:replace="products/product_shipping :: content"></div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center"> <input type="submit" value="Save" class="btn btn-primary m-3" /> <input
+					type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel" /> </div>
+		</form>
+		<!-- End Page Title -->
+	</main>
+	<div th:replace="page_blank :: footer">
+		<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+				class="bi bi-arrow-up-short"></i></a>
+		<div th:replace="page_blank :: js">
+		</div>
+	</div>
+	<script type="text/javascript">
+		var brandChose = $("#brand")
+		var categories = $("#categories");
+		var url = "[[@{/products}]]";
+		var mainImage = $("#mainImage");
+		var countExtraImg = 0;
+
+
+
+		$(document).ready(function () {
+			$("#shortDescription").richText();
+			$("#fullDescription").richText();
+			brandChose.change(function () {
+				categories.empty();
+				getFormCategories();
+			})
+			mainImage.change(function () {
+				loadMainImage(this);
+			})
+			$("input[name='img']").each(function (index) {
+				countExtraImg++;
+				$(this).change(function () {
+					if (!checkFileSize(this)) {
+						return;
+					}
+					loadImageExtra(this, index);
+
+				});
+			})
+
+			getFormCategories();
+		});
+
+		function getFormCategories() {
+			var brandId = brandChose.val();
+			var urlForm = url + "/" + brandId + "/categories";
+			$.get(urlForm, function (responseJson) {
+				$.each(responseJson, function (index, category) {
+					$("<option>").val(category.id).text(category.name).appendTo(categories);
+				});
+			});
+		}
+		function addNewDetail() {
+			alldivDetail = $("[id^='divDetai']");
+			divDetailCount = alldivDetail.length;
+
+			var htmlAddNewDetail = `
+		<div class="form-inline" style="display: flex; margin:5px" id="divDetai${divDetailCount}">
+			<label>Name :</label>
+			<input type="text" style="margin-right:5px" name="nameDetail">
+			<label >Value :</label>
+			<input type="text" name="valueDetail">
+			<a class="fa-solid fa-circle-xmark fa-lg icon-Red" title="Delete this" href="javascript:removeDetail('divDetai${divDetailCount}')"></a>
+		</div>`
+			$("#mainDetail").append(htmlAddNewDetail);
+
+		}
+		function removeDetail(id) {
+			$("#" + id).remove();
+		}
+
+		function loadMainImage(image) {
+			if (!checkFileSize(image)) {
+				return;
+			}
+			var file = image.files[0];
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$("#thumbnail").attr("src", e.target.result);
+			};
+
+			reader.readAsDataURL(file);
+		}
+		function checkFileSize(fileInput) {
+			fileSize = fileInput.files[0].size;
+			if (fileSize > 1048579) {
+				fileInput.setCustomValidity("Bạn cần chọn file có kích thước dưới 1MB !")
+				fileInput.reportValidity();
+				return false;
+			}
+			else {
+				return true;
+			}
+
+		}
+		function loadImageExtra(img, index) {
+			var fileImg = img.files[0];
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$("#extraImg" + index).attr("src", e.target.result);
+			}
+			reader.readAsDataURL(fileImg);
+			if (index == countExtraImg - 1) {
+				addNextExtraDiv(index + 1);
+			}
+
+		}
+
+		function addNextExtraDiv(index) {
+			htmlExtraImg = `			<div class="col border m-3 p-2" id="divExtraImg${index}">
+				<div id="extraImageHeader${index}"><label>Ảnh Phụ ${index + 1}</label></div>
+				<div class="m-2">
+					<img class="img-fluid" id="extraImg${index}" alt="Ảnh phụ">
+				</div>
+				<div>
+					<input type="file" accept="image/png, image/jpeg" name="img" onchange="loadImageExtra(this, ${index})">
+				</div>
+			</div>`
+
+			$("#divProductImages").append(htmlExtraImg);
+			countExtraImg++;
+
+			htmlLinkRemove = `
+		<a class="btn fas fa-times-circle fa-2x icon-dark float-right"
+			href="javascript:removeExtraImage(${index - 1})" 
+			title="Remove this image"></a>
+	`;
+
+			$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove);
+
+		}
+
+
+		function removeExtraImage(index) {
+			$("#divExtraImg" + index).remove();
+		}
+
+	</script>
+</body>
+
+</html>

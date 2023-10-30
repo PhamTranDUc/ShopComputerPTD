@@ -60,4 +60,16 @@ public class UserService {
     	}
     	return null;
     }
+    
+    public boolean checkEmailDuplicated(Long id,String email) {
+    	User user = userRepository.findByEmail(email);
+    	if(user == null) {
+    		return true;
+    	}else {
+    		if(user.getId() == id) {
+    			return true;
+    		}
+    		return false;
+    	}
+    }
 }

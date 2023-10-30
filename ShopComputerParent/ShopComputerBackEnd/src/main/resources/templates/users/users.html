@@ -25,54 +25,72 @@
 				[[${message}]]
 			</div>
 
-			<a class="btn btn-primary" th:href="@{/users/formUser}">Thêm User mới</a>
+			<a class="fa-solid fa-user-plus fa-2xl blue-icon" th:href="@{/users/formUser}"
+				title="Thêm tài khoản hệ thống mới" style="margin-bottom: 10px; margin-left: 10px;"></a>
 			<!-- Vị trí hiển thị bảng -->
 			<table class="table">
 				<thead>
 					<tr>
 						<th scope="col">
-						<a th:href="@{'/users/page/'+${currentPage}+'?sortBy=id'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
-							ID</a>
-						<i th:if="${sortType.equals('asc')&&sortBy.equals('id')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('id')}" class="fa-solid fa-caret-down"></i>
+							<a
+								th:href="@{'/users/page/'+${currentPage}+'?sortBy=id'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+								ID</a>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('id')}" class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('id')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
 						<th scope="col">Image</th>
 						<th scope="col">
-							<a th:href="@{'/users/page/'+${currentPage}+'?sortBy=firstName'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
-								First Name
+							<a
+								th:href="@{'/users/page/'+${currentPage}+'?sortBy=firstName'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+								Họ và đệm
 							</a>
-							<i th:if="${sortType.equals('asc')&&sortBy.equals('firstName')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('firstName')}" class="fa-solid fa-caret-down"></i>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('firstName')}"
+								class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('firstName')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
 						<th scope="col">
-							<a th:href="@{'/users/page/'+${currentPage}+'?sortBy=lastName'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
-								Last Name
+							<a
+								th:href="@{'/users/page/'+${currentPage}+'?sortBy=lastName'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+								Tên
 							</a>
-							<i th:if="${sortType.equals('asc')&&sortBy.equals('lastName')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('lastName')}" class="fa-solid fa-caret-down"></i>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('lastName')}"
+								class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('lastName')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
 						<th scope="col">
-							<a th:href="@{'/users/page/'+${currentPage}+'?sortBy=email'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+							<a
+								th:href="@{'/users/page/'+${currentPage}+'?sortBy=email'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
 								Email
 							</a>
-								<i th:if="${sortType.equals('asc')&&sortBy.equals('email')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('email')}" class="fa-solid fa-caret-down"></i>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('email')}"
+								class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('email')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
 						<th scope="col">
-							<a th:href="@{'/users/page/'+${currentPage}+'?sortBy=enable'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+							<a
+								th:href="@{'/users/page/'+${currentPage}+'?sortBy=enable'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
 								Enable
 							</a>
-									<i th:if="${sortType.equals('asc')&&sortBy.equals('enable')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('enable')}" class="fa-solid fa-caret-down"></i>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('enable')}"
+								class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('enable')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
 						<th scope="col">
-							<a th:href="@{'/users/page/'+${currentPage}+'?sortBy=phoneNumber'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
-								Phone Number
+							<a
+								th:href="@{'/users/page/'+${currentPage}+'?sortBy=phoneNumber'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+								Số điện thoại
 							</a>
-							<i th:if="${sortType.equals('asc')&&sortBy.equals('phoneNumber')}" class="fa-solid fa-caret-up"></i>
-						<i th:if="${sortType.equals('desc') && sortBy.equals('phoneNumber')}" class="fa-solid fa-caret-down"></i>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('phoneNumber')}"
+								class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('phoneNumber')}"
+								class="fa-solid fa-caret-down"></i>
 						</th>
-						<th scope="col">Action</th>
+						<th scope="col">Hoạt động</th>
 
 					</tr>
 				</thead>
@@ -82,7 +100,7 @@
 						<td><img th:src="@{${user.pathImage}}" width="100px"></td>
 						<td>[[${user.firstName}]]</td>
 						<td>[[${user.lastName}]]</td>
-						<td>[[${user.email}]]</td>
+						<td>[[${user.ShortEmail}]]</td>
 						<td>
 							<th:block th:if="${user.enable == true}">
 								<a class="fa-solid fa-circle-check fa-2xl" style="color: #0e770e;"
@@ -95,9 +113,14 @@
 						</td>
 						<td>[[${user.phoneNumber}]]</td>
 						<td>
-							<a type="button" class="btn btn-secondary" th:href="@{'/users/detail/'+${user.id}}">Edit</a>
-							<a type="button" class="btn btn-danger"
-								th:href="@{'/users/delete/'+${user.id}}">Delete</button>
+							<a type="button" class="fa-solid fa-id-card fa-2xl" th:href="@{'/users/detail/'+${user.id}}"
+								title="Xem chi tiết"></a>
+							<a type="button" class="fa-solid fa-user-pen fa-2xl icon-Gray"
+								th:href="@{'/users/getFormEdit/'+${user.id}}" title="Tùy chỉnh"></a>
+							<a type="button" class="fa-solid fa-trash fa-2xl icon-Red linkDelete"
+								th:href="@{'/users/delete/'+${user.id}}" title="Xóa" th:userId="${user.id}" th:userFn="${user.firstName}"  th:userLn="${user.lastName}" ></a>
+
+
 						</td>
 					</tr>
 				</tbody>
@@ -130,6 +153,28 @@
 			</div>
 
 		</div>
+
+		<div class="modal fade text-center" id="modalConfirm">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalTitle">
+							Xác nhận xóa
+						</h4>
+						<button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<span id="modalBody"></span>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-success" id="yesBtn">Xóa</a>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Quay lại</button>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
 		<!-- End Page Title -->
 	</main>
 
@@ -138,6 +183,23 @@
 	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
 			class="bi bi-arrow-up-short"></i></a>
 	<div th:replace="page_blank :: js"></div>
+	
+	<script type="text/javascript">
+		$(document).ready(function (){
+			$(".linkDelete").on("click",function (e){
+				e.preventDefault();
+				var link = $(this);
+				userId=link.attr("userId");
+				firstName=link.attr("userFn");
+				lastName=link.attr("userLn");
+				$("#yesBtn").attr("link",link);
+				$("#modalBody").text("Bạn có chắc chắn muốn xóa tài khoản thành viên có id là "+userId+" và tên là \""+firstName+" "+lastName+"\"");
+				$("#modalConfirm").modal("show");
+				$("#yesBtn").attr("href",link.attr("href"));		
+				})
+		});
+		
+	</script>
 
 </body>
 

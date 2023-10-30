@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+	<div th:fragment="content">
+        <h1>Description</h1>
+
+		<label for="fullDescription" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Full Description</label>
+		<textarea class="form-control"  id="fullDescription" th:field="*{fullDescription}"></textarea>
+
+
+		<label for="shortDescription" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Short Description</label>
+		<textarea class="form-control"  id="shortDescription" th:field="*{shortDescription}"></textarea>
+
+	</div>
+
+</body>
+
+</html>

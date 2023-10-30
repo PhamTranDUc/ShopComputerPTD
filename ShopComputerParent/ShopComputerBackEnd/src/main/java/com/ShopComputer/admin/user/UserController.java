@@ -62,7 +62,7 @@ public class UserController {
 		User user= userService.findById(id);
 		model.addAttribute("user", user);
 		model.addAttribute("listRole", roleService.getAll());
-		return "users/user_form";
+		return "users/user_detail";
 	}
 	
 	@PostMapping("/users/save")
@@ -84,10 +84,10 @@ public class UserController {
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);			
 		}
 		if(userTmp == null) {
-			redirectAttributes.addFlashAttribute("message","User đã được lưu lại thành công !");
+			redirectAttributes.addFlashAttribute("message","Tài khoản thành viên đã được lưu lại thành công !");
 		}else {
 			userService.saveUser(user);
-			redirectAttributes.addFlashAttribute("message","User có id = "+userTmp.getId()+"đã được cập nhập lại thành công !");
+			redirectAttributes.addFlashAttribute("message","Tài khoản có id = "+userTmp.getId()+" đã được cập nhập lại thành công !");
 		}
 		return "redirect:/users";
 	}
@@ -101,6 +101,14 @@ public class UserController {
 	@GetMapping("/users/formUser")
 	public String getForm(Model model) {
 		User user= new User();
+		model.addAttribute("user", user);
+		model.addAttribute("listRole", roleService.getAll());
+		return "users/user_form";
+	}
+	
+	@GetMapping("/users/getFormEdit/{id}")
+	public String getFormEdit(@PathVariable("id")Long id, Model model) {
+		User user= userService.findById(id);
 		model.addAttribute("user", user);
 		model.addAttribute("listRole", roleService.getAll());
 		return "users/user_form";

@@ -42,8 +42,11 @@ public class Category {
 	private Set<Category> children = new HashSet<>();
 	
 	
-	@ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "categories")
 	private List<Brand> brands= new ArrayList<>();
+	
+	@ManyToMany(mappedBy = "listCategory")
+	private List<Product> listProduct= new ArrayList<>();
 
 	public Category() {
 		super();
@@ -193,6 +196,14 @@ public class Category {
 
 	public void setChildren(Set<Category> children) {
 		this.children = children;
+	}
+
+
+
+	public Category(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
 	}
 	
 

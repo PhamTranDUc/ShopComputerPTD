@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+	<div th:fragment="content">
+		<h1>Image</h1>
+		<div class="row" id="divProductImages">
+			<div class="col border m-3 p-2">
+				<div><label>Ảnh chính</label></div>
+				<div class="m-2">
+					<img class="img-fluid" id="thumbnail" alt="Ảnh chính">
+				</div>
+				<div>
+					<input type="file" th:required="${product.mainImage == null}" accept="image/png, image/jpeg" id="mainImage" name="imageM">
+				</div>
+			</div>
+
+			<div class="col border m-3 p-2" id="divExtraImg0">
+				<div id="extraImageHeader0"><label>Ảnh Phụ 1</label></div>
+				<div class="m-2">
+					<img class="img-fluid" id="extraImg0" alt="Ảnh phụ">
+				</div>
+				<div>
+					<input type="file" accept="image/png, image/jpeg" name="img" >
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

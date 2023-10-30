@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+	<div th:fragment="content">
+		<h1>over view</h1>
+
+		<div class="form-group row">
+			<label for="name" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Product Name</label>
+			<div class="col-sm-8">
+				<input type="text" th:field="*{name}" id="name" class="form-control" name="name" required>
+			</div>
+
+		</div>
+		<div class="form-group row">
+			<label for="name" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Alias</label>
+			<div class="col-sm-8">
+				<input type="text" th:field="*{alias}" id="alias" class="form-control" name="alias" required>
+			</div>
+
+		</div>
+		<div class="form-group row">
+			<label for="name" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Thương hiệu</label>
+			<div class="col-sm-8">
+				<select class="form-select" id="brand" th:field="*{brand}">
+					<th:block th:each="brand : ${listBrand}">
+						<option th:value="${brand.id}" th:text="${brand.name}">
+						</option>
+					</th:block>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label for="name" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Danh mục</label>
+			<div class="col-sm-8">
+				<select class="form-select" id="categories" th:field="*{listCategory}" multiple>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-check">
+			<label class="form-check-label" for="enable">
+				Enable
+			</label>
+			<input class="form-check-input" type="checkbox" value="" id="enable" th:field="*{enable}">
+
+		</div>
+
+
+		<div class="form-check">
+			<label class="form-check-label" for="inStock">
+				Còn Hàng
+			</label>
+			<input class="form-check-input" type="checkbox" value="" id="inStock" th:field="*{inStock}">
+
+		</div>
+
+		<div class="form-group row">
+			<label for="cost" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Giá Nhập</label>
+			<div class="col-sm-8">
+				<input type="number" th:field="*{cost}" id="cost" class="form-control" name="cost">
+			</div>
+
+		</div>
+
+		<div class="form-group row">
+			<label for="price" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Giá Bán</label>
+			<div class="col-sm-8">
+				<input type="number" th:field="*{price}" id="price" class="form-control" name="price">
+			</div>
+
+		</div>
+
+		<div class="form-group row">
+			<label for="discountPercent" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Giảm Giá</label>
+			<div class="col-sm-8">
+				<input type="number" th:field="*{discountPercent}" id="discountPercent" class="form-control"
+					name="discountPercent">
+			</div>
+
+		</div>
+
+
+	</div>
+
+</body>
+
+</html>

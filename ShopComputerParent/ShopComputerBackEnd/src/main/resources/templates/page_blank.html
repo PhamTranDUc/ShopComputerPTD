@@ -32,9 +32,14 @@
 	<link th:href="@{/assets/vendor/remixicon/remixicon.css}" rel="stylesheet" />
 	<link th:href="@{/assets/vendor/simple-datatables/style.css}" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}">
+	
+	
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
 
 	<!-- Template Main CSS File -->
 	<link th:href="@{/assets/css/style.css}" rel="stylesheet" />
+	<link th:href="@{/style.css}" rel="stylesheet"/>
 
 	<!-- =======================================================
   * Template Name: NiceAdmin
@@ -48,6 +53,9 @@
 <body>
 	<!-- ======= Header ======= -->
 	<header id="header" class="header fixed-top d-flex align-items-center" th:fragment="header">
+		<form th:action="@{/logout}" method="post" name="formLogout" th:hidden="true">
+			<input type="submit">
+		</form>
 		<div class="d-flex align-items-center justify-content-between">
 			<a th:href="@{/}" class="logo d-flex align-items-center">
 				<span class="d-none d-lg-block">Computer Shop Admin - PTD</span>
@@ -268,7 +276,7 @@
     font-size: inherit;">
 
 										<i class="bi bi-box-arrow-right"></i>
-										<span>Sign Out</span>
+										<span><a href="" id="btnLogout">Đăng xuất</a></span>
 									</button>
 								</form>
 							</div>
@@ -296,17 +304,17 @@
 
 			<li class="nav-item">
 				<a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-					<i class="bi bi-menu-button-wide"></i><span>Account</span><i class="bi bi-chevron-down ms-auto"></i>
+					<i class="bi bi-menu-button-wide"></i><span>Tài khoản</span><i class="bi bi-chevron-down ms-auto"></i>
 				</a>
 				<ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 					<li>
 						<a th:href="@{/users}">
-							<i class="bi bi-circle"></i><span>Cộng tác viên:</span>
+							<i class="bi bi-circle"></i><span>Tài khoản thành viên:</span>
 						</a>
 					</li>
 					<li>
 						<a href="components-accordion.html">
-							<i class="bi bi-circle"></i><span>Khách hàng:</span>
+							<i class="bi bi-circle"></i><span>Tài khoản khách hàng:</span>
 						</a>
 					</li>
 				</ul>
@@ -348,7 +356,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="forms-elements.html">
+						<a th:href="@{/products}">
 							<i class="bi bi-circle"></i><span>Sản phẩm</span>
 						</a>
 					</li>
@@ -471,6 +479,17 @@
 
 		<!-- Template Main JS File -->
 		<script th:src="@{/assets/js/main.js}"></script>
+		
+	<script type="text/javascript">
+	$(document).ready(function () {
+		$("#btnLogout").on("click",function(e){
+			e.preventDefault();
+			document.formLogout.submit();
+		})
+		
+		})
+	
+</script>	
 
 	</div>
 </body>

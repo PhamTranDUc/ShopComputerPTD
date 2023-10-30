@@ -152,12 +152,21 @@ public class User {
 	
 	@Transient
 	public String getPathImage() {
-		if(this.id == null || this.image== null) {
+		if(this.id == null || this.image== null || this.image.equals("")) {
 			return "/image/default-user.jpg";
 		}
 		return "/user-photos/"+this.id+"/"+this.image;
 	}
 
+	@Transient
+	public String getShortEmail() {
+		if(this.email.length()>15) {
+			String rt=this.getEmail().substring(0, 11)+"...";
+			return rt;
+		}
+		return this.email;
+		
+	}
 
 	
 	
