@@ -1,11 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Shop Computer</title>
-</head>
-<body>
-	<h1>User</h1>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragment :: header('Shopme')">
+  </head>
+  <body>
+	  <div class="container-fluid">
+		  
+	  
+	  <div th:insert="fragment :: menubar"></div>
+	  <div th:replace="navigation :: search_nav"></div>
+	  <div>
+		  <h1>Danh mục</h1>
+	  </div>
 
-</body>
+      <div class="row">
+          <div class="col" th:each="cate : ${listCategory}" >
+			  <a th:href="@{'/c/'+${cate.alias}+'/1'}" style="text-decoration: none ">
+              <img th:src="@{${cate.PathImage}}" style="width: 150px;">
+              [[${cate.name}]]
+              </a>
+          </div>
+       </div>
+       
+       <div>
+		  <h1>Thương hiệu</h1>
+	  </div>
+
+      <div class="row" style="margin: 20px;">
+          <div class="col" th:each="brand : ${listBrand}" >
+			  <a th:href="@{'/c/'+${brand.name}+'/1'}" style="text-decoration: none ">
+              <img th:src="@{${brand.PathImage}}" style="width: 200px;">
+              [[${brand.name}]]
+              </a>
+          </div>
+       </div>
+      
+    <!-- Your content goes here -->
+    <div th:insert="fragment :: menubar-footer"></div>
+    <footer th:replace="fragment :: footer">
+	</footer>
+	</div>
+  </body>
 </html>
