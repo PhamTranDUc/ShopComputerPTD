@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ShopComputer.EntityCommon.Brand;
 import com.ShopComputer.EntityCommon.Product;
 import com.ShopComputer.EntityCommon.ProductDetail;
+import com.ShopComputer.EntityCommon.ProductImage;
 import com.ShopComputer.admin.FileUploadUtil;
 import com.ShopComputer.admin.brand.BrandService;
 import com.ShopComputer.admin.productDetail.ProductDetailService;
@@ -43,7 +45,7 @@ public class ProductController {
 		return getByPage(1, "id", "asc", null, model);
 	}
 
-	@GetMapping("/product/page/{currentPage}")
+	@GetMapping("/products/page/{currentPage}")
 	public String getByPage(@PathVariable("currentPage") int currentPage, @Param("sortBy") String sortBy,
 			@Param("sortType") String sortType, @Param("keyWord") String keyWord, Model model) {
 
@@ -69,7 +71,7 @@ public class ProductController {
 
 	@PostMapping("products/new")
 	public String saveProduct(Product product,@RequestParam("imageM") MultipartFile mainImage,@RequestParam("img") MultipartFile [] imageExtra,
-			RedirectAttributes model,@RequestParam("nameDetail")String nameDetails [],@RequestParam("valueDetail")String valueDetails []) throws IOException {
+			RedirectAttributes model,@RequestParam("nameDetail")String nameDetails [],@RequestParam("valueDetail")String valueDetails [],@RequestParam("detailIds")Long [] detailIds) throws IOException {
 		
 		if(product.getId()== null) {
 			product.setCreateTime(new Date());
@@ -79,7 +81,7 @@ public class ProductController {
 			for(MultipartFile multipartFile : imageExtra) {
 				String nameMultipartFile = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 				if(!multipartFile.isEmpty()) {
-					product.addProductImageExtra(nameMainImage);
+					product.addProductImageExtra(nameMultipartFile);
 				}
 		    }
 			Product productSave=productService.addProduct(product);
@@ -94,14 +96,30 @@ public class ProductController {
 					FileUploadUtil.saveFile(uploadDirExtra, nameMultipartFile, multipartFile);
 				}
 		    }
+			saveDetail(nameDetails,valueDetails,product);
 		}
 		else {
 			Product productTmp= productService.findById(product.getId());
-			product.setCreateTime(productTmp.getCreateTime());
 			product.setUpdateTime(new Date());
+			if(!mainImage.isEmpty()) {
+				String nameMainImage= StringUtils.cleanPath(mainImage.getOriginalFilename());
+				product.setMainImage(nameMainImage);
+				String uploadDir="../product-photos/"+productTmp.getId();
+				FileUploadUtil.cleanDir(uploadDir);
+				FileUploadUtil.saveFile(uploadDir, productTmp.getMainImage(), mainImage);
+				saveMainImage(mainImage,productTmp);
+			}else {
+				product.setMainImage(productTmp.getMainImage());
+			}
+			for(ProductImage s: productTmp.getProductImages()) {
+				product.addProductImageExtra(s.getName());
+			}
+			product.setProductDetails(productTmp.getProductDetails());
+			productService.addProduct(product);
+//			chua code updateDetail và updateImg;
 		}
 		
-		saveDetail(nameDetails,valueDetails,product);
+		
 		model.addFlashAttribute("message", "Đã lưu sản phẩm mới có tên là "+product.getName()+ " thành công !");
 		return "redirect:/products";
 	}
@@ -121,6 +139,40 @@ public class ProductController {
 			if (!detailName[i].equals("")) {
 				productDetailService.save(new ProductDetail(detailName[i], detailValue[i], product));
 			}
+		}
+	}
+	
+	@GetMapping("products/detail/{id}")
+	public String getProduct(Model model,@PathVariable("id") Long id) {
+		model.addAttribute("product", productService.findById(id));
+		model.addAttribute("listBrand", brandService.findAll());
+		return "products/products_form";
+	}
+	
+//	public void saveDetails(String[] nameDetail,String[] valueDetail,Long[] detailIds,Product product) {
+//		List<ProductDetail> listOldProductDetail= product.getProductDetails();
+//		for(ProductDetail p: listOldProductDetail) {
+//			boolean check=true;
+//			for(Long l : detailIds) {
+//				if(l == p.getId()) {
+//					check=false;
+//					break;
+//				}
+//			}
+//			if(check==true) {
+//				productDetailService.delete(p);
+//			}
+//		}
+//	}
+	
+	public void saveMainImage(MultipartFile multipartFile,Product product) throws IOException {
+		if(!multipartFile.isEmpty()) {
+			String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			product.setMainImage(fileName);
+			String uploadDir="../product-photos/"+product.getId();
+			FileUploadUtil.cleanDir(uploadDir);
+			FileUploadUtil.saveFile(uploadDir, product.getMainImage(), multipartFile);
+			
 		}
 	}
 }

@@ -35,4 +35,8 @@ public class ProductService {
 		return productRepository.findById(id).get();
 	}
 
+//	public Product importGoods(int quantity, Product product) {
+//		product.setQuantity(quantity);
+//		
+//	}
 }

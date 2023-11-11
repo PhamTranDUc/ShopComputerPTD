@@ -83,4 +83,19 @@ public class testProductRepository {
         product.addProductImageExtra("extraImg3");
         productRepository.save(product);
     }
+
+    @Test
+    public void testAddProductToWareHouse(){
+        productRepository.addProductToWareHouse(16,25L);
+    }
+
+    @Test
+    public void testRemoveProductFromWareHouse(){
+        productRepository.removeProductFromWareHouse(2,25L);
+    }
+
+    @Test
+    public void testSetProductFromWareHouse(){
+        productRepository.setQuantityProduct(10,25L);
+    }
 }

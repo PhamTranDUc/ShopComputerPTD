@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class ProductImage {
@@ -53,4 +54,11 @@ public class ProductImage {
 		this.product = product;
 	}
 	
+	@Transient
+	public String getPathImageExtra() {
+		if(this.name == null || this.name.equals("")) {
+			return "/image/imgDefault.png";
+		}
+		return "/product-photos/"+this.product.getId()+"/extras/"+this.name;
+	}
 }

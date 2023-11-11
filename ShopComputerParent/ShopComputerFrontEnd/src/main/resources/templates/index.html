@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="fragment :: header('Shopme')">
+  <head th:replace="fragment :: header('ShopComputerPTD')">
   </head>
   <body>
 	  <div class="container-fluid">
@@ -14,7 +14,7 @@
 
       <div class="row">
           <div class="col" th:each="cate : ${listCategory}" >
-			  <a th:href="@{'/c/'+${cate.alias}+'/1'}" style="text-decoration: none ">
+			  <a th:href="@{'/products/category/'+${cate.id}}" style="text-decoration: none">
               <img th:src="@{${cate.PathImage}}" style="width: 150px;">
               [[${cate.name}]]
               </a>
@@ -27,7 +27,7 @@
 
       <div class="row" style="margin: 20px;">
           <div class="col" th:each="brand : ${listBrand}" >
-			  <a th:href="@{'/c/'+${brand.name}+'/1'}" style="text-decoration: none ">
+			  <a th:href="@{'/products/brand/'+${brand.id}}" style="text-decoration: none ">
               <img th:src="@{${brand.PathImage}}" style="width: 200px;">
               [[${brand.name}]]
               </a>

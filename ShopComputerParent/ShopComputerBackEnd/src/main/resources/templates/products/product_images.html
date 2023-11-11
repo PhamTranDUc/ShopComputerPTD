@@ -4,27 +4,56 @@
 <body>
 
 	<div th:fragment="content">
-		<h1>Image</h1>
-		<div class="row" id="divProductImages">
+		<h1>Ảnh</h1>
+		<div class="row" id="divProductImages" th:if="${product.id == null}">
 			<div class="col border m-3 p-2">
 				<div><label>Ảnh chính</label></div>
 				<div class="m-2">
-					<img class="img-fluid" id="thumbnail" alt="Ảnh chính">
+					<img class="img-fluid" id="thumbnail" alt="Ảnh chính" th:src="@{${product.PathImageMain}}">
 				</div>
 				<div>
-					<input type="file" th:required="${product.mainImage == null}" accept="image/png, image/jpeg" id="mainImage" name="imageM">
+					<input type="file" th:required="${product.mainImage == null}" accept="image/png, image/jpeg"
+						id="mainImage" name="imageM">
 				</div>
 			</div>
 
 			<div class="col border m-3 p-2" id="divExtraImg0">
 				<div id="extraImageHeader0"><label>Ảnh Phụ 1</label></div>
 				<div class="m-2">
-					<img class="img-fluid" id="extraImg0" alt="Ảnh phụ">
+					<img class="img-fluid" id="extraImg0" alt="Ảnh phụ" th:src="@{/image/imgDefault.png}">
 				</div>
 				<div>
-					<input type="file" accept="image/png, image/jpeg" name="img" >
+					<input type="file" accept="image/png, image/jpeg" name="img">
 				</div>
 			</div>
+		</div>
+
+
+
+		<div class="row" id="divProductImages" th:if="${product.id != null}">
+			<div class="col border m-3 p-2">
+				<div><label>Ảnh chính</label></div>
+				<div class="m-2">
+					<img class="img-fluid" id="thumbnail" alt="Ảnh chính" th:src="@{${product.PathImageMain}}">
+				</div>
+				<div>
+					<input type="file" th:required="${product.mainImage == null}" accept="image/png, image/jpeg"
+						id="mainImage" name="imageM">
+				</div>
+			</div>
+			
+
+          <div th:each="img, status : ${product.productImages}" >
+			<div class="col border m-3 p-2" th:id='divExtraImg'+${status.index}>
+				<div th:id='extraImageHeader'+${status.index}><label>Ảnh Phụ #[[${status.index + 1}]]</label></div>
+				<div class="m-2">
+					<img class="img-fluid" th:id='extraImg'+${status.index} alt="Ảnh phụ" th:src="@{${img.PathImageExtra}}">
+				</div>
+				<div>
+					<input type="file" accept="image/png, image/jpeg" name="img">
+				</div>
+			</div>
+          </div>
 		</div>
 	</div>
 

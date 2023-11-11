@@ -4,7 +4,7 @@
 <body>
 
 	<div th:fragment="content">
-		<h1>over view</h1>
+		<h1>Tổng quan</h1>
 
 		<div class="form-group row">
 			<label for="name" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Product Name</label>
@@ -34,8 +34,16 @@
 
 		<div class="form-group row">
 			<label for="name" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Danh mục</label>
-			<div class="col-sm-8">
+			<div class="col-sm-8" th:if="${product.id != null}">
 				<select class="form-select" id="categories" th:field="*{listCategory}" multiple>
+					<th:block th:each="category : ${product.brand.categories}">
+						<option th:value="${category.id}" th:text="${category.name}"></option>
+					</th:block>
+				</select>
+			</div>
+
+			<div class="col-sm-8" th:if="${product.id == null}">
+				<select class="form-select" id="categories" th:field="*{listCategory}" multiple>					
 				</select>
 			</div>
 		</div>

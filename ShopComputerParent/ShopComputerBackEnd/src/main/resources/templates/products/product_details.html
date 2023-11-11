@@ -4,15 +4,18 @@
 <body>
 
 	<div th:fragment="content" id="mainDetail" >
-		<h1>Detail</h1>
+		<h1>Chi tiết thuộc tính</h1>
 
 		<th:block th:if="${product.id !=null}">
 			<div th:each="detail, status : ${product.productDetails}" >
-				<div class="form-inline" style="display: flex; margin:5px" th:id="'divDetail'+${status.index}">
+				<div class="form-inline" style="display: flex; margin:5px" th:id="'divDetail'+${status.index}">					
 					<label>Name :</label>
-					<input type="text" style="margin-right:5px" name="nameDetail">
+					<input type="text" style="margin-right:5px" name="nameDetail" th:value="${detail.name}">
+					<input type="hidden" name="detailIds" th:value="${detail.id}">
 					<label >Value :</label>
-					<input type="text" name="valueDetail">
+					<input type="text" name="valueDetail" th:value="${detail.value}">
+					<a class="fa-solid fa-circle-xmark fa-lg icon-Red" title="Delete this" href="javascript:removeDetail('divDetai${status.index}')">
+					</a>
 				</div>
 			</div>
 		</th:block>
@@ -20,7 +23,8 @@
 		<th:block th:if="${product.id == null}">
 			<div class="form-inline" style="display: flex; margin:5px" id="divDetail0">
 				<label>Name :</label>
-				<input type="text" style="margin-right:5px" name="nameDetail">
+				<input type="text" style="margin-right:5px" name="nameDetail" >
+				<input type="hidden" name="detailIds" th:value="0">
 				<label >Value :</label>
 				<input type="text" name="valueDetail">
 			</div>

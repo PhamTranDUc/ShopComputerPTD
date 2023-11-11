@@ -3,6 +3,7 @@ package com.ShopComputer.EntityCommon;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -56,10 +57,10 @@ public class Product {
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
 	
-	@OneToMany(mappedBy = "product",orphanRemoval = true)
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<ProductDetail> productDetails;
 	
-	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProductImage> productImages= new ArrayList<>();
 	
 	private boolean enable;
@@ -225,6 +226,7 @@ public class Product {
 
 	public Product() {
 		super();
+		this.quantity=0;
 	}
 
 	public Product(String name, String alias, String shortDescription, String fullDescription, double cost,
@@ -249,6 +251,7 @@ public class Product {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.mainImage = mainImage;
+		this.quantity=0;
 	}
 
 	public Product(Long id, String name, String alias, String shortDescription, String fullDescription, double cost,
@@ -274,6 +277,7 @@ public class Product {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.mainImage = mainImage;
+		this.quantity=0;
 	}
 
 	@Transient
@@ -322,5 +326,45 @@ public class Product {
 			return "/image/imgDefault.png";	
 		}
 		return "/product-photos/"+this.id+"/"+this.mainImage;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Product product = (Product) o;
+		return Double.compare(product.cost, cost) == 0 && Double.compare(product.discountPercent, discountPercent) == 0 && Double.compare(product.price, price) == 0 && enable == product.enable && inStock == product.inStock && Double.compare(product.weight, weight) == 0 && Double.compare(product.height, height) == 0 && Double.compare(product.length, length) == 0 && Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(alias, product.alias) && Objects.equals(shortDescription, product.shortDescription) && Objects.equals(fullDescription, product.fullDescription) && Objects.equals(listCategory, product.listCategory) && Objects.equals(brand, product.brand) && Objects.equals(productDetails, product.productDetails) && Objects.equals(productImages, product.productImages) && Objects.equals(createTime, product.createTime) && Objects.equals(updateTime, product.updateTime) && Objects.equals(mainImage, product.mainImage);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, alias, shortDescription, fullDescription, cost, discountPercent, price, listCategory, brand, productDetails, productImages, enable, inStock, weight, height, length, createTime, updateTime, mainImage);
+	}
+	public void addDetail(String name, String value) {
+		this.productDetails.add(new ProductDetail(name, value, this));
+	}
+
+	public void addDetail(Long id, String name, String value) {
+		this.productDetails.add(new ProductDetail(id, name, value, this));
+	}
+	
+	@Column(columnDefinition = "int default 0")
+	public int quantity;
+	
+
+    @Transient	
+	public Double getPriceSale() {
+		if(this.discountPercent<=0) {
+			return this.price;
+		}
+		return this.price-this.price*this.discountPercent/100;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

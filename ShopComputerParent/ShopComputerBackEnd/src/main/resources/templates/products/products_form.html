@@ -24,19 +24,20 @@
 		<form th:action="@{/products/new}" method="post" onsubmit="return checkUnique(this)"
 			enctype="multipart/form-data" th:object="${product}">
 			<input type="hidden" th:field="*{id}" />
+			<input type="hidden" th:if="${product.listCategory != null}" th:value="1" id="listCategory" />
 			<div>
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#overview"
-							role="tab">Overview</a> </li>
+							role="tab">Tổng quan</a> </li>
 					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#description"
-							role="tab">Description</a> </li>
-					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#images" role="tab">Images</a>
+							role="tab">Mô tả</a> </li>
+					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#images" role="tab">Ảnh</a>
 					</li>
 					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#details"
-							role="tab">Details</a>
+							role="tab">Chi tiết</a>
 					</li>
 					<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#shipping"
-							role="tab">Shipping</a>
+							role="tab">Thông số vật lý</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -53,16 +54,18 @@
 						<div th:replace="products/product_details :: content"></div>
 						<br>
 						<br>
-						<a class="btn btn-secondary" href="javascript:addNewDetail()" style="margin-top: 15px;">Add new
-							detail</a>
+						<a class="btn btn-secondary" href="javascript:addNewDetail()" style="margin-top: 15px;">Thêm chi tiết
+							</a>
 					</div>
 					<div class="tab-pane" id="shipping" role="tabpanel">
 						<div th:replace="products/product_shipping :: content"></div>
 					</div>
 				</div>
 			</div>
-			<div class="text-center"> <input type="submit" value="Save" class="btn btn-primary m-3" /> <input
-					type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel" /> </div>
+			<div class="text-center">
+				<input type="submit" value="Lưu" class="btn btn-primary m-3" />
+				<button type="button" class="btn btn-secondary" id="buttonCancel">Quay lại</button>
+			</div>
 		</form>
 		<!-- End Page Title -->
 	</main>
@@ -84,6 +87,10 @@
 		$(document).ready(function () {
 			$("#shortDescription").richText();
 			$("#fullDescription").richText();
+			
+			$("#buttonCancel").on("click",function(){
+				window.location = "[[@{/products}]]";
+			})
 			brandChose.change(function () {
 				categories.empty();
 				getFormCategories();
@@ -102,8 +109,9 @@
 				});
 			})
 
-			getFormCategories();
+			getCategoryForNewForm();
 		});
+
 
 		function getFormCategories() {
 			var brandId = brandChose.val();
@@ -114,6 +122,19 @@
 				});
 			});
 		}
+
+
+		function getCategoryForNewForm() {
+			valueCategory = $("#listCategory");
+			checkEdit = false;
+			if (valueCategory.val() == 1) {
+				checkEdit = true;
+			}
+			if (!checkEdit) {
+				getFormCategories();
+			}
+		}
+
 		function addNewDetail() {
 			alldivDetail = $("[id^='divDetai']");
 			divDetailCount = alldivDetail.length;
@@ -124,6 +145,7 @@
 			<input type="text" style="margin-right:5px" name="nameDetail">
 			<label >Value :</label>
 			<input type="text" name="valueDetail">
+			<input type="hidden" name="detailIds" th:value="0">
 			<a class="fa-solid fa-circle-xmark fa-lg icon-Red" title="Delete this" href="javascript:removeDetail('divDetai${divDetailCount}')"></a>
 		</div>`
 			$("#mainDetail").append(htmlAddNewDetail);
@@ -174,7 +196,7 @@
 			htmlExtraImg = `			<div class="col border m-3 p-2" id="divExtraImg${index}">
 				<div id="extraImageHeader${index}"><label>Ảnh Phụ ${index + 1}</label></div>
 				<div class="m-2">
-					<img class="img-fluid" id="extraImg${index}" alt="Ảnh phụ">
+					<img class="img-fluid" id="extraImg${index}" alt="Ảnh phụ" src='/ShopComputerAdmin/image/imgDefault.png'>
 				</div>
 				<div>
 					<input type="file" accept="image/png, image/jpeg" name="img" onchange="loadImageExtra(this, ${index})">

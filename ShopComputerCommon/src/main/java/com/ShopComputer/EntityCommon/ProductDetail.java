@@ -41,6 +41,13 @@ public class ProductDetail {
 		this.value = value;
 		this.product = product;
 	}
+	public ProductDetail(Long id,String name, String value, Product product) {
+		super();
+		this.id=id;
+		this.name = name;
+		this.value = value;
+		this.product = product;
+	}
 
 	public Long getId() {
 		return id;

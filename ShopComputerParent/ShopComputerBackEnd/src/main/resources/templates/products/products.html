@@ -61,12 +61,12 @@
 					<tr th:each="product : ${listProduct}">
 						<th scope="row">[[${product.id}]]</th>
 						<td>
-<!--							<img th:src="@{${brand.pathImage}}" width="200px">-->
+							<img th:src="@{${product.PathImageMain}}" width="200px">
 						</td>
 						<td scope="row" th:title="${product.name}">[[${product.shortName}]]</td>
 						<td scope="row" th:title="${product.alias}">
 							[[${product.shortAlias}]]
-						</td>	
+						</td>
 						<td scope="row">
 							<th:block th:each="cat : ${product.listCategory}">
 								<span class="badge bg-secondary">[[${cat.name}]]</span>
@@ -75,15 +75,38 @@
 						<td>
 							<a type="button" class="btn btn-secondary"
 								th:href="@{'/products/detail/'+${product.id}}">Edit</a>
-							<a type="button" class="btn btn-danger"
-								th:href="@{'/products/delete/'+${product.id}}">Delete</a>
+							<a type="button" class="btn btn-danger linkDelete"
+								th:href="@{'/products/delete/'+${product.id}}" th:productId="${product.id}">Delete</a>
 						</td>
 					</tr>
+
+					<div class="modal fade text-center" id="modalConfirm">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="modalTitle">
+										Xác nhận xóa
+									</h4>
+									<button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<span id="modalBody"></span>
+								</div>
+								<div class="modal-footer">
+									<a class="btn btn-success" id="yesBtn">Xóa</a>
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Quay
+										lại</button>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
 				</tbody>
 			</table>
 
 
-			<div th:if="${numberBrand>6}" class="d-flex justify-content-center">
+			<div th:if="${numberProduct>6}" class="d-flex justify-content-center">
 				<nav aria-label="Page navigation example">
 					<ul class="pagination">
 						<li th:class="${currentPage==1 ? 'page-item disabled' : 'page-item'}"><a class="page-link"
@@ -116,8 +139,23 @@
 	<div th:replace="page_blank :: footer"></div>
 	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
 			class="bi bi-arrow-up-short"></i></a>
+			
 	<div th:replace="page_blank :: js"></div>
 
+	<script type="text/javascript">
+		$(document).ready(function (){
+			$(".linkDelete").on("click",function (e){
+				e.preventDefault();
+				var link = $(this);
+				productId=link.attr("productId");
+				$("#yesBtn").attr("link",link);
+				$("#modalBody").text("Bạn có chắc chắn muốn xóa sản phẩm có id là "+productId);
+				$("#modalConfirm").modal("show");
+				$("#yesBtn").attr("href",link.attr("href"));		
+				})
+		});
+		
+	</script>
 </body>
 
 </html>

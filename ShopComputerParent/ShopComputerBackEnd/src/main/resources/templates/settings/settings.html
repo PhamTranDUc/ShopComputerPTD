@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+
+<head th:replace="page_blank :: head">
+
+</head>
+
+<body>
+	<div th:replace="page_blank :: header"></div>
+
+	<div th:replace="page_blank :: sidebar"></div>
+
+	<main id="main" class="main" th:fragment="main">
+		<div class="pagetitle"></div>
+		<h1>Dashboard</h1>
+		<div>
+			<!-- 	<div style="max-width: 700px;margin:0 auto">  -->
+			<!-- Nav tabs -->
+			<ul class="nav justify-content-center">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" data-bs-toggle="tab" href="#general">Tổng quan</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" data-bs-toggle="tab" href="#mailServer">Mail Server</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-bs-toggle="tab" href="#mailTemplates">Mail Templates</a>
+				</li>
+			</ul>
+
+			<div th:if="${message != null}" class="alert alert-success text-center">
+				[[${message}]]
+			</div>
+
+			<!-- Tab panes -->
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane p-3 show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+					<div th:replace="settings/settings_general :: content"></div>
+				</div>
+
+				<div class="tab-pane fade" id="mailServer" role="tabpanel" aria-labelledby="mailServer-tab">
+
+					<div th:replace="settings/settings_mailServer :: content"></div>
+
+				</div>
+
+				<div class="tab-pane fade" id="mailServer" role="tabpanel" aria-labelledby="mailServer-tab">
+
+					Mail Template
+
+				</div>
+
+
+			</div>
+		</div>
+
+		<div class="modal fade text-center" id="modalDialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalTitle">
+							Warning
+						</h4>
+						<button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<span id="modalBody"></span>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- End Page Title -->
+	</main>
+	<div th:replace="page_blank :: footer">
+		<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+				class="bi bi-arrow-up-short"></i></a>
+		<div th:replace="page_blank :: js">
+
+</body>
+
+</html>

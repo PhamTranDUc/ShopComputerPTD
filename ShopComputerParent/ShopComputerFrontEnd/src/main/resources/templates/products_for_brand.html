@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment :: header('ShopComputerPTD')">
+</head>
+
+<body>
+	<div class="container-fluid">
+
+
+		<div th:insert="fragment :: menubar"></div>
+		<div th:replace="navigation :: search_nav"></div>
+
+
+		<div class="row">
+			<div class="col" th:each="product : ${listProduct}">
+				<a th:href="@{'/products/detail/'+${product.id}}" style="text-decoration: none">
+					<img th:src="@{${product.PathImageMain}}" style="width: 250px;">
+					[[${product.name}]]
+				</a>
+			</div>
+		</div>
+
+		<div th:if="${numberProduct>10}" class="d-flex justify-content-center">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li th:class="${currentPage==1 ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+							th:href="@{'/products/category/'+${brandId}+'/page/1?'+'sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">First</a>
+					</li>
+					<li th:class="${currentPage==1 ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+							th:href="@{'/products/category/'+${brandId}+'/page/'+${currentPage-1}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Previous</a>
+					</li>
+					<li th:each="i: ${#numbers.sequence(1,totalPage)}"
+						th:class="${currentPage==i? 'page-item active':'page-item'}"><a class="page-link"
+							th:href="@{'/products/category/'+${brandId}+'/page/'+${i}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">[[${i}]]</a>
+					</li>
+					<li th:class="${currentPage==totalPage ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+							th:href="@{'/products/category/'+${brandId}+'/page/'+${currentPage+1}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Next</a>
+					</li>
+					<li th:class="${currentPage==totalPage ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+							th:href="@{'/products/category/'+${brandId}+'/page/'+${totalPage}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Last</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+
+
+		<!-- Your content goes here -->
+		<div th:insert="fragment :: menubar-footer"></div>
+		<footer th:replace="fragment :: footer">
+		</footer>
+	</div>
+</body>
+
+</html>
