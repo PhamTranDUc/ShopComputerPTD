@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment :: header('ShopComputerPTD')">
+</head>
+
+<body>
+	<div class="container-fluid">
+
+
+		<div th:insert="fragment :: menubar"></div>
+		<div th:replace="navigation :: search_nav"></div>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+				[[${message}]]
+			</div>
+
+
+		<div th:if="${listCartItem != null}" class="row">
+			<div class="col-8" th:each="cartItem : ${listCartItem}">
+				<!-- Chi tiết sản phẩm chiếm 8/12 của dòng -->
+
+				<div class="row">
+					<div class="col-3">
+						<img th:src="@{${cartItem.product.PathImageMain}}" style="width: 100%;">
+					</div>
+					<div class="col-3">
+						<br>
+						<br>
+						[[${cartItem.product.name}]]<br>
+						Số lượng : <span>[[${cartItem.quantity}]]</span><br>
+
+						Giá
+						<span style="font-size: large; color: darkred">
+							<span>
+								<span th:if="${CURRENCY_SYMBOL_POSITION == 'before'}" th:remove="tag">
+									[[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(cartItem.product.PriceSale,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+								</span>
+								<span th:if="${CURRENCY_SYMBOL_POSITION == 'after'}" th:remove="tag">
+									[[${#numbers.formatDecimal(cartItem.product.PriceSale,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+									[[${CURRENCY_SYMBOL}]]
+								</span>
+							</span>
+						</span>
+					</div>
+					<div class="col-2">
+						<div>
+							<br>
+							<br>
+							<a type="button" class="btn btn-danger" th:href="@{'/cart/detele/'+${cartItem.id}}">Xóa</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-4">
+				<h3>Chi Tiết Thanh Toán</h3>				
+				
+				Tổng Tiền Hàng: <span>
+					<span th:if="${CURRENCY_SYMBOL_POSITION == 'before'}" th:remove="tag">
+						[[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(tienHang,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+					</span>
+					<span th:if="${CURRENCY_SYMBOL_POSITION == 'after'}" th:remove="tag">
+						[[${#numbers.formatDecimal(tienHang,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]][[${CURRENCY_SYMBOL}]]
+					</span>
+				</span>
+				<br>
+				Tiền Được Giảm: <span style="font-size: large; color: darkred">
+					<span th:if="${CURRENCY_SYMBOL_POSITION == 'before'}" th:remove="tag">
+						- [[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(tienDuocGiam,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+					</span>
+					<span  th:if="${CURRENCY_SYMBOL_POSITION == 'after'}" th:remove="tag">
+						- [[${#numbers.formatDecimal(tienDuocGiam,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]][[${CURRENCY_SYMBOL}]]
+					</span>
+				</span>
+				<br>
+				Tiền Phải Trả: <span>
+					<span th:if="${CURRENCY_SYMBOL_POSITION == 'before'}" th:remove="tag">
+						[[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(tienPhaiTra,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+					</span>
+					<span th:if="${CURRENCY_SYMBOL_POSITION == 'after'}" th:remove="tag">
+						[[${#numbers.formatDecimal(tienPhaiTra,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]][[${CURRENCY_SYMBOL}]]
+					</span>
+				</span>
+				<br>
+			<form th:action="@{'/confirmBuy/'+${#authentication.principal.id}}" method="post">
+				<button type="submit" class="btn btn-primary">Mua Hàng</button>
+			</form>
+					
+
+				
+			</div>
+		</div>
+		<div th:if="${listCartItem == null}" class="row">
+			<h3>Giỏ hàng của bạn đang trống hãy quay lại chọn sản phẩm muốn mua</h3>
+			</div>
+
+		<!-- Your content goes here -->
+		<div th:insert="fragment :: menubar-footer"></div>
+		<footer th:replace="fragment :: footer">
+		</footer>
+	</div>
+</body>
+
+</html>

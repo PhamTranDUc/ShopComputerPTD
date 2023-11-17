@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment :: header('ShopComputerPTD')">
+</head>
+
+<body>
+	<div class="container-fluid">
+
+
+		<div th:insert="fragment :: menubar"></div>
+		<div th:replace="navigation :: search_nav"></div>
+		<form th:action="@{'/bill/'+${#authentication.principal.id}}" th:object="${bill}" method="post">
+			<input type="hidden" th:field="*{id}">
+
+			Hóa Đơn :
+			<br>
+			Tổng Tiền Hàng: <span>
+				<span th:if="${CURRENCY_SYMBOL_POSITION == 'before'}" th:remove="tag">
+					[[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(tienHang,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+				</span>
+				<span th:if="${CURRENCY_SYMBOL_POSITION == 'after'}" th:remove="tag">
+					[[${#numbers.formatDecimal(tienHang,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]][[${CURRENCY_SYMBOL}]]
+				</span>
+			</span>
+			<br>
+			Tiền Được Giảm: <span style="font-size: large; color: darkred">
+				<span th:if="${CURRENCY_SYMBOL_POSITION == 'before'}" th:remove="tag">
+					-
+					[[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(tienDuocGiam,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+				</span>
+				<span th:if="${CURRENCY_SYMBOL_POSITION == 'after'}" th:remove="tag">
+					-
+					[[${#numbers.formatDecimal(tienDuocGiam,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]][[${CURRENCY_SYMBOL}]]
+				</span>
+			</span>
+			<br>
+			Tiền Phải Trả: <span>
+				<span th:if="${CURRENCY_SYMBOL_POSITION == 'before'}" th:remove="tag">
+					[[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(tienPhaiTra,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]]
+				</span>
+				<span th:if="${CURRENCY_SYMBOL_POSITION == 'after'}" th:remove="tag">
+					[[${#numbers.formatDecimal(tienPhaiTra,1,THOUSANDS_POINT_TYPE,DECIMAL_DIGITS,DECIMAL_POINT_TYPE)}]][[${CURRENCY_SYMBOL}]]
+				</span>
+			</span>
+			<br>
+			Thông tin giao hàng:
+			<div class="form-group row">
+				<label for="phoneNumber" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Số điện thoại liên
+					lạc
+				</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:value="${phoneNumber}" id="phoneNumber" readonly>
+				</div>
+
+			</div>
+			<div class="form-group row">
+				<label for="address" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Địa chỉ nhận hàng
+
+				</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{address}" id="address" >
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="firstName" class="col-sm-4 col-form-label" style="margin-bottom: 20px;">Ghi chú
+
+				</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" id="orderNote" rows="4" placeholder="Ghi chú đơn hàng tại đây..."
+						th:field="*{note}"></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Đặt hàng</button>
+		</form>
+
+		<!-- Your content goes here -->
+		<div th:insert="fragment :: menubar-footer"></div>
+		<footer th:replace="fragment :: footer">
+		</footer>
+	</div>
+</body>
+
+</html>
