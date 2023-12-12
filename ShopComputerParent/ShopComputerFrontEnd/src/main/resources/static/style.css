@@ -1,0 +1,39 @@
+*.blue-icon{
+   color : blue;
+   text-decoration: none;
+}
+
+*.green-icon{
+   color : green;
+   text-decoration: none;
+}
+
+*.icon-Dark{
+	color: black;
+	 text-decoration: none;
+}
+*.icon-Green{
+	color: green;
+	 text-decoration: none;
+}
+*.icon-White{
+	color: white;
+	 text-decoration: none;
+}
+*.icon-Gray{
+	color: gray;
+	 text-decoration: none;
+}
+*.icon-Red{
+	color: red;
+	 text-decoration: none;
+}
+
+/* CSS cho footer */
+*.footer {
+    background-color: #343a40; /* Màu nền của footer */
+    color: white; /* Màu chữ của footer */
+    padding: 20px; /* Padding để tạo khoảng trắng xung quanh nội dung trong footer */
+    margin-top: 20px; /* Margin top để tạo khoảng cách với các phần tử phía trên */
+}
+
