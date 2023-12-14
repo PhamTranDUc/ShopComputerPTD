@@ -1,4 +1,4 @@
-package com.ShopComputer.admin.setting;
+package com.ShopComputer.EntityCommon;
 
 import java.util.List;
 

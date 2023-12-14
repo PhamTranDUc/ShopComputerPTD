@@ -66,4 +66,20 @@ public class testSettingRepository {
             System.out.println(s);
         }
     }
+    
+    @Test
+    public void testCreateMailServerSetting() {
+    	Setting mailHost=new Setting(SettingCategory.MAIL_SERVER,"MAIL_HOST","smtp.gmail.com");
+    	Setting mailPost=new Setting(SettingCategory.MAIL_SERVER,"MAIL_POST","123");
+    	Setting mailUsername=new Setting(SettingCategory.MAIL_SERVER,"MAIL_USERNAME","username");
+    	Setting mailPassword=new Setting(SettingCategory.MAIL_SERVER,"MAIL_PASSWORD","password");
+    	Setting mailFrom=new Setting(SettingCategory.MAIL_SERVER,"MAIL_FROM","ShopComputerPTD@gmail.com");
+    	Setting mailSMTPAuth=new Setting(SettingCategory.MAIL_SERVER,"SMTP_AUTH","true");
+    	Setting mailSMTPSecured=new Setting(SettingCategory.MAIL_SERVER,"SMTP_SECURED","true");
+    	Setting mailSenderName=new Setting(SettingCategory.MAIL_SERVER,"MAIL_SENDER_NAME","ShopComputerPTD Team");
+    	Setting mailVerifySubject=new Setting(SettingCategory.MAIL_TEMPLATES,"CUSTOMER_VERIFY_SUBJECT","Email subject");
+    	Setting mailVerifyContent=new Setting(SettingCategory.MAIL_TEMPLATES,"CUSTOMER_VERIFY_CONTEN","email content");
+    	settingRepository.saveAll(List.of(mailHost,mailPost,mailUsername,mailPassword,mailFrom,mailSMTPAuth,mailSMTPSecured,
+    			mailSenderName,mailVerifySubject,mailVerifyContent));
+    }
 }

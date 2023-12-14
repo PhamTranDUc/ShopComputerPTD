@@ -15,11 +15,14 @@ public class CustomerUserDetailService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Customer customer= customerRepository.findByEmail(username).get();
-		if(customer == null) {
+		Customer customer=null;
+		if(customerRepository.findByEmail(username).isEmpty()) {
 			throw new UsernameNotFoundException("Không tìm thấy tài khoản với email "+username);
+		}else {
+		    customer= customerRepository.findByEmail(username).get();
+		    return new CustomerUserDetail(customer);
 		}
-		return new CustomerUserDetail(customer);
+
 	}
 
 }

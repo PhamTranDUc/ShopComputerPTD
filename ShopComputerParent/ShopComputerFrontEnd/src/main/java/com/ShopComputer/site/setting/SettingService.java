@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ShopComputer.EntityCommon.EmailSettingBag;
 import com.ShopComputer.EntityCommon.Setting;
 import com.ShopComputer.EntityCommon.SettingCategory;
 
@@ -21,6 +22,16 @@ public class SettingService {
 		listRs.addAll(SettingCurrentcy);
 		listRs.addAll(SettingGeneral);
 		return listRs;
+	}
+	
+	public EmailSettingBag getEmailSettings() {
+		List<Setting> rs= new ArrayList<>();
+		List<Setting> listSettingMailServer= settingRepository.findBySettingCategory(SettingCategory.MAIL_SERVER);
+		List<Setting> listSettingMailTemplate= settingRepository.findBySettingCategory(SettingCategory.MAIL_TEMPLATES);
+	    rs.addAll(listSettingMailTemplate);
+	    rs.addAll(listSettingMailServer);
+	    return new EmailSettingBag(rs);
+	
 	}
 
 }

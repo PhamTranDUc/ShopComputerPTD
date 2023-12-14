@@ -48,11 +48,26 @@ public class SettingController {
 		SettingBagGeneral settingBagGeneral= new SettingBagGeneral(listSetting);
 		saveSiteLogo(multipartFile,settingBagGeneral);
 		saveCurrencySymbol(http.getParameter("CURRENCY_ID"),settingBagGeneral);
-		saveSettingGeneralForForm(http,settingBagGeneral.listSetting);
+		saveSettingForForm(http,settingBagGeneral.listSetting);
         rd.addFlashAttribute("message", "Cài đặt của bạn đã được lưu lại!");
 		return "redirect:/settings";
 	}
 	
+	@PostMapping("/settings/save_mailServer")
+	public String saveSettingMailServer(RedirectAttributes rd,HttpServletRequest http) throws IOException {
+		List<Setting> listMailSeverSetting= settingService.getAllSetting();
+		saveSettingForForm(http, listMailSeverSetting);
+        rd.addFlashAttribute("message", "Cài đặt của bạn đã được lưu lại!");
+		return "redirect:/settings";
+	}
+	
+	@PostMapping("/settings/save_mailTemplate")
+	public String saveSettingMailTemplate(RedirectAttributes rd,HttpServletRequest http) throws IOException {
+		List<Setting> listMailSeverSetting= settingService.getAllSetting();
+		saveSettingForForm(http, listMailSeverSetting);
+        rd.addFlashAttribute("message", "Cài đặt của bạn đã được lưu lại!");
+		return "redirect:/settings";
+	}
 	public void saveSiteLogo(MultipartFile multipartFile,SettingBagGeneral settingBag) throws IOException {
 		if(multipartFile!=null||!multipartFile.isEmpty()) {
 		     String name=StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -73,7 +88,7 @@ public class SettingController {
 		}
 	}
 	
-	public void saveSettingGeneralForForm(HttpServletRequest http,List<Setting> listSetting) {
+	public void saveSettingForForm(HttpServletRequest http,List<Setting> listSetting) {
 		for(Setting s: listSetting) {
 			String value= http.getParameter(s.getSettingKey());
 			if(value!= null) {

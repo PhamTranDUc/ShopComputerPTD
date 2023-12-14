@@ -9,7 +9,9 @@
 	  <div th:insert="fragment :: menubar"></div>
 	  <div th:replace="navigation :: search_nav"></div>
 	  
-	  <h3>Bạn đã đăng ký thành công hãy truy cập vào gmail để kích hoạt tài khoản.</h3>
+	  <h3 style="color: red;">Xác thực tài khoản không thành công</h3>
+	  <p style="color: red;">Mã xác thực đã sai hoặc tài khoản đã được xác minh thành công !</p>
+	  <a th:href="@{/login}">Đăng nhập</a>
       
     <!-- Your content goes here -->
     <div th:insert="fragment :: menubar-footer"></div>

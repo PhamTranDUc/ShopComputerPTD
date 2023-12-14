@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragment :: header('ShopComputerPTD')">
+  </head>
+  <body>
+	  <div class="container-fluid">
+		  
+	  
+	  <div th:insert="fragment :: menubar"></div>
+	  <div th:replace="navigation :: search_nav"></div>
+	  
+	  <h3>Bạn đã đăng ký thành tài khoản thành công</h3>
+	  <p>Hãy truy cập vào Email để xác minh tài khoản !</p>
+	  <a th:href="@{/login}">Đăng nhập</a>
+      
+    <!-- Your content goes here -->
+    <div th:insert="fragment :: menubar-footer"></div>
+    <footer th:replace="fragment :: footer">
+	</footer>
+	</div>
+  </body>
+</html>

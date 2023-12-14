@@ -3,6 +3,7 @@ package com.ShopComputer.admin.setting;
 import java.util.List;
 
 import com.ShopComputer.EntityCommon.Setting;
+import com.ShopComputer.EntityCommon.SettingBag;
 
 public class SettingBagGeneral extends SettingBag{
 
