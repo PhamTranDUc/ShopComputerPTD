@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -36,5 +37,24 @@ public class testCustomerRepository {
     public void findByEmail(){
         Customer c= customerRepository.findByEmail("phamtranducc@gmail.com").get();
         System.out.println(c.getFirstName()+" "+c.getLastName());
+    }
+    
+    @Test
+    public void enableCustomer() {
+    	customerRepository.enableCustomer(14L);
+    }
+    
+    @Test
+    public void verifyCustomer() {
+    	customerRepository.verifyCustomer("12345");
+    }
+    
+    @Test
+    public void findByVerificationCode() {
+    	Optional<Customer> customer = customerRepository.findByVerificationCode("12345");
+    	if(customer.isPresent()) {
+    		System.out.println(customer.get().email);
+    	}
+    	
     }
 }

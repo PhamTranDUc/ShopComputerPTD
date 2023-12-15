@@ -7,6 +7,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,7 @@ public class CustomerController {
 		String content= emailSetting.getCUSTOMER_VERIFY_CONTENT();
 		
 		MimeMessage message = mailSender.createMimeMessage();
-	    MimeMessageHelper helper = new MimeMessageHelper(message);
+	    MimeMessageHelper helper = new MimeMessageHelper(message,true, "UTF-8");
 	    
 	    helper.setFrom(emailSetting.getMailFrom(), emailSetting.getMAIL_SENDER_NAME());
 	    helper.setTo(toAddress);
@@ -58,10 +59,19 @@ public class CustomerController {
 	    
 	    content= content.replace("[[name]]", customer.getFirstName()+" "+customer.getLastName());
 	    String verifyURL= Utility.getSiteUrl(request)+"/verify?code="+customer.getVerificationCode();
-	    content = content.replace("URL", verifyURL);
+	    content = content.replace("[[URL]]", verifyURL);
 	    
 	    helper.setText(content,true);
 	    mailSender.send(message);
+	}
+	
+	@GetMapping("/verify")
+	public String verifyCustomer(@Param("code") String code,Model model) {
+		boolean verify = customerService.verifyCustomer(code);
+		if(verify == false) {
+			return "/customer_register/verify_fail";
+		}
+		return "/customer_register/verify_success";
 	}
 	
 
