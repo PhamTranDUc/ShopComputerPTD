@@ -169,7 +169,7 @@ public class Customer {
 
 
 
-	public boolean isEnable() {
+	public boolean getEnable() {
 		return enable;
 	}
 

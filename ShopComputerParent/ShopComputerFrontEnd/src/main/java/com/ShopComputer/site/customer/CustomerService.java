@@ -59,13 +59,14 @@ public class CustomerService {
 	    Optional<Customer> customerOptional = customerRepository.findByVerificationCode(code);
 
 	    // Kiểm tra xem customer có tồn tại và enable là false
-	    if (customerOptional.isPresent() && !customerOptional.get().isEnable()) {
+	    if (customerOptional.isPresent() && !customerOptional.get().getEnable()) {
 	       customerRepository.verifyCustomer(code);
 	        return true;
 	    }
 
 	    return false;
 	}
+	
 	
 	
 

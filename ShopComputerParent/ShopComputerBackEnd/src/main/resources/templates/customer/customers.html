@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+
+<head th:replace="page_blank :: head">
+
+</head>
+
+<body>
+	<div th:replace="page_blank :: header"></div>
+
+	<div th:insert="page_blank :: sidebar"></div>
+
+	<main id="main" class="main">
+		<div class="pagetitle">
+			<h1>Dashboard</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="authen.html">Home</a></li>
+					<li class="breadcrumb-item active">Dashboard</li>
+				</ol>
+			</nav>
+		</div>
+		<div th:fragment="content">
+			<div th:if="${message != null}" class="alert alert-success text-center">
+				[[${message}]]
+			</div>
+
+
+			<!-- Vị trí hiển thị bảng -->
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">
+							<a
+								th:href="@{'/customer/page/'+${currentPage}+'?sortBy=id'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+								ID</a>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('id')}" class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('id')}"
+								class="fa-solid fa-caret-down"></i>
+						</th>
+						<th scope="col">Họ</th>
+						<th scope="col">
+							<a
+								th:href="@{'/customer/page/'+${currentPage}+'?sortBy=name'+'&sortType='+${sortRever}+${keyWord != null?'&keyWord='+keyWord:''}}">
+								Tên
+							</a>
+							<i th:if="${sortType.equals('asc')&&sortBy.equals('name')}"
+								class="fa-solid fa-caret-up"></i>
+							<i th:if="${sortType.equals('desc') && sortBy.equals('name')}"
+								class="fa-solid fa-caret-down"></i>
+						</th>
+						<th>
+							Email
+						</th>
+						<th>
+							địa chỉ 1
+						</th>
+						<th>
+							Enable
+						</th>
+
+
+						<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+					<th:each="customer : ${listCustomer}">
+						<tr th:each="customer : ${listCustomer}">
+								<th scope="row">[[${customer.id}]]</th>
+								<td scope="row">[[${customer.firstName}]]</td>
+								<td scope="row" th:title="${customer.lastName}">[[${customer.lastName}]]</td>
+								<td scope="row" th:title="${customer.email}">[[${customer.email}]]</td>
+								<td scope="row">[[${customer.address1}]]</td>
+								<td scope="row">
+									<th:block th:if="${customer.enable == true}">
+										<a class="fa-solid fa-circle-check fa-2xl" style="color: #0e770e;"
+											th:href="@{'/customer/'+${customer.id}+'?enable='+${customer.enable}}"></a>
+									</th:block>
+									<th:block th:unless="${customer.enable == true}">
+										<a class="fa-solid fa-circle fa-2xl" style="color: #bbc3bb;"
+											th:href="@{'/customer/'+${customer.id}+'?enable='+${customer.enable}}"></a>
+									</th:block>
+								</td>
+								<td>
+									<a type="button" class="btn btn-secondary"
+										th:href="@{'/customer/detail/'+${customer.id}}">Edit</a>
+								</td>
+							
+						</tr>
+						</th:each>
+				
+
+
+				<div class="modal fade text-center" id="modalConfirm">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="modalTitle">
+									Xác nhận xóa
+								</h4>
+								<button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								<span id="modalBody"></span>
+							</div>
+							<div class="modal-footer">
+								<a class="btn btn-success" id="yesBtn">Xóa</a>
+								<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Quay
+									lại</button>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				</tbody>
+			</table>
+
+
+			<div th:if="${numbercustomer>5}" class="d-flex justify-content-center">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:class="${currentPage==1 ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+								th:href="@{'/customer/page/1?'+'sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">First</a>
+						</li>
+						<li th:class="${currentPage==1 ? 'page-item disabled' : 'page-item'}"><a class="page-link"
+								th:href="@{'/customer/page/'+${currentPage-1}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Previous</a>
+						</li>
+						<li th:each="i: ${#numbers.sequence(1,totalPage)}"
+							th:class="${currentPage==i? 'page-item active':'page-item'}"><a class="page-link"
+								th:href="@{'/customer/page/'+${i}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">[[${i}]]</a>
+						</li>
+						<li th:class="${currentPage==totalPage ? 'page-item disabled' : 'page-item'}"><a
+								class="page-link"
+								th:href="@{'/customer/page/'+${currentPage+1}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Next</a>
+						</li>
+						<li th:class="${currentPage==totalPage ? 'page-item disabled' : 'page-item'}"><a
+								class="page-link"
+								th:href="@{'/customer/page/'+${totalPage}+'?sortBy='+${sortBy}+'&sortType='+${sortType}+${keyWord != null?'&keyWord='+keyWord:''}}">Last</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+		</div>
+		<!-- End Page Title -->
+	</main>
+
+
+	<div th:replace="page_blank :: footer"></div>
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+			class="bi bi-arrow-up-short"></i></a>
+
+	<div th:replace="page_blank :: js"></div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$(".linkDelete").on("click", function (e) {
+				e.preventDefault();
+				var link = $(this);
+				customerId = link.attr("customerId");
+				$("#yesBtn").attr("link", link);
+				$("#modalBody").text("Bạn có chắc chắn muốn xóa sản phẩm có id là " + customerId);
+				$("#modalConfirm").modal("show");
+				$("#yesBtn").attr("href", link.attr("href"));
+			})
+		});
+
+	</script>
+</body>
+
+</html>
