@@ -36,6 +36,7 @@ public class Customer {
 	
 	public String verificationCode;
 	
+	public AuthenticationType authenticationType;
 	
 
 	public Customer() {
@@ -222,6 +223,18 @@ public class Customer {
 		this.createTime = createTime;
 		this.enable = enable;
 		this.verificationCode = verificationCode;
+	}
+
+
+
+	public AuthenticationType getAuthenticationType() {
+		return authenticationType;
+	}
+
+
+
+	public void setAuthenticationType(AuthenticationType authenticationType) {
+		this.authenticationType = authenticationType;
 	}
 	
 	

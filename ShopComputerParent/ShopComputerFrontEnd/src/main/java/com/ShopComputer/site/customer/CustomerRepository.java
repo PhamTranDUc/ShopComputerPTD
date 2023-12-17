@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ShopComputer.EntityCommon.AuthenticationType;
 import com.ShopComputer.EntityCommon.Customer;
 
 @Repository
@@ -29,5 +30,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	public void verifyCustomer(String code);
 	
 	public Optional<Customer> findByVerificationCode(String code);
+	
+	@Query("UPDATE Customer c SET c.authenticationType = ?2 WHERE c.id = ?1")
+	@Modifying
+	public void updateAuthenticationType(Long id, AuthenticationType authenticationType);
 
 }

@@ -1,5 +1,6 @@
 package com.ShopComputer.site;
 
+import com.ShopComputer.EntityCommon.AuthenticationType;
 import com.ShopComputer.EntityCommon.Customer;
 import com.ShopComputer.site.customer.CustomerRepository;
 import org.junit.jupiter.api.Test;
@@ -56,5 +57,10 @@ public class testCustomerRepository {
     		System.out.println(customer.get().email);
     	}
     	
+    }
+    
+    @Test
+    public void updateAuthenticationType() {
+    	customerRepository.updateAuthenticationType(2L, AuthenticationType.DATABASE);
     }
 }

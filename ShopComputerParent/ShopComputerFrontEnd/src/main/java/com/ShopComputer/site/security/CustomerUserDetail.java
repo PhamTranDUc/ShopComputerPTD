@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ShopComputer.EntityCommon.Customer;
+import com.ShopComputer.EntityCommon.User;
 
 public class CustomerUserDetail implements UserDetails{
 	private Customer customer;
@@ -65,5 +66,10 @@ public class CustomerUserDetail implements UserDetails{
 	public Long getId() {
 		return this.customer.id;
 	}
+	
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
 
 }

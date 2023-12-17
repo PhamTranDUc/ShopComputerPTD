@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ShopComputer.EntityCommon.AuthenticationType;
 import com.ShopComputer.EntityCommon.Customer;
 
 import net.bytebuddy.utility.RandomString;
@@ -37,6 +38,7 @@ public class CustomerService {
 		customer.setPassWord(passWord);
 		String verificationCode= RandomString.make(64);
 		customer.setVerificationCode(verificationCode);
+		customer.setAuthenticationType(AuthenticationType.DATABASE);
 		customerRepository.save(customer);
 		
 		
@@ -63,8 +65,40 @@ public class CustomerService {
 	       customerRepository.verifyCustomer(code);
 	        return true;
 	    }
-
 	    return false;
+	}
+	
+	public void updateAuthentication(Customer customer, AuthenticationType type) {
+		
+		if(type != customer.getAuthenticationType()) {
+			customerRepository.updateAuthenticationType(customer.getId(), type);
+		}
+	}
+	
+	public Customer getByEmail(String email) {
+	    Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+
+	    if (optionalCustomer.isPresent()) {
+	        return optionalCustomer.get();
+	    } else {
+	        return null; 
+	    }
+	}
+
+
+	public void addNewCustomer(String email,String name) {
+		Customer customer= new Customer();
+		customer.setFirstName(name);
+		customer.setEmail(email);
+		customer.setCreateTime(new Date());
+		customer.setEnable(true);
+		customer.setPassWord("");
+		customer.setAddress1("");
+		customer.setAddress2("");
+		customer.setAuthenticationType(AuthenticationType.GOOGLE);
+		customer.setPhoneNumber("");
+		customer.setVerificationCode("");
+		customerRepository.save(customer);		
 	}
 	
 	

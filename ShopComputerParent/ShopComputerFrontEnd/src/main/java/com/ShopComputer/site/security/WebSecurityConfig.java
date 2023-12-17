@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ShopComputer.site.security.oauth.CustomerOAuth2UserService;
+import com.ShopComputer.site.security.oauth.OAuth2LoginSuccessHandler;
 
 
 @Configuration
@@ -21,6 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private CustomerOAuth2UserService oAuth2UserService;
+	
+	@Autowired
+	private OAuth2LoginSuccessHandler oAuth2Handler;
+	
+	@Autowired
+	private DatabaseLoginSuccessHandler databaseHandler;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -36,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.formLogin()
 		.loginPage("/login")
 		.usernameParameter("email")
+		.successHandler(databaseHandler)
 		.permitAll()
 		.and()
 		.oauth2Login()
@@ -43,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.userInfoEndpoint()
 		.userService(oAuth2UserService)
 		.and()
+		.successHandler(oAuth2Handler)
 		.and()
 		.rememberMe()
 		.key("1234567890_aBcDeFgHiJkLmNoPqRsTuVwXyZ")
