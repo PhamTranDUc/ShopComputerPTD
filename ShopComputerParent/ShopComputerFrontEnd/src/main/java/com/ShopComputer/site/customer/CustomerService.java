@@ -86,7 +86,7 @@ public class CustomerService {
 	}
 
 
-	public void addNewCustomer(String email,String name) {
+	public void addNewCustomer(String email,String name, AuthenticationType authenticationType) {
 		Customer customer= new Customer();
 		customer.setFirstName(name);
 		customer.setEmail(email);
@@ -95,7 +95,7 @@ public class CustomerService {
 		customer.setPassWord("");
 		customer.setAddress1("");
 		customer.setAddress2("");
-		customer.setAuthenticationType(AuthenticationType.GOOGLE);
+		customer.setAuthenticationType(authenticationType);
 		customer.setPhoneNumber("");
 		customer.setVerificationCode("");
 		customerRepository.save(customer);		

@@ -11,6 +11,7 @@ import com.ShopComputer.EntityCommon.User;
 public class CustomerUserDetail implements UserDetails{
 	private Customer customer;
 	
+	
 
 	public CustomerUserDetail(Customer customer) {
 		super();
