@@ -10,7 +10,7 @@
 
 		<div th:insert="fragment :: menubar"></div>
 		<div th:replace="navigation :: search_nav"></div>
-		<form th:action="@{'/bill/'+${#authentication.principal.id}}" th:object="${bill}" method="post">
+		<form th:action="@{'/bill'}" th:object="${bill}" method="post">
 			<input type="hidden" th:field="*{id}">
 
 			Hóa Đơn :
@@ -74,6 +74,9 @@
 			</div>
 			<button type="submit" class="btn btn-primary">Đặt hàng</button>
 		</form>
+		<div style="margin-bottom: 100px;">
+			
+		</div>
 
 		<!-- Your content goes here -->
 		<div th:insert="fragment :: menubar-footer"></div>

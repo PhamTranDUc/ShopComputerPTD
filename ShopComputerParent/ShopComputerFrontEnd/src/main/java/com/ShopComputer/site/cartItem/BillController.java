@@ -2,6 +2,8 @@ package com.ShopComputer.site.cartItem;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import com.ShopComputer.EntityCommon.Bill;
 import com.ShopComputer.EntityCommon.BillStatus;
 import com.ShopComputer.EntityCommon.CartItem;
 import com.ShopComputer.EntityCommon.Customer;
+import com.ShopComputer.site.Utility;
 import com.ShopComputer.site.customer.CustomerService;
 
 @Controller
@@ -26,19 +29,20 @@ public class BillController {
 	@Autowired
 	private CustomerService customerService;
 	
-	@PostMapping("/bill/{id}")
-	public String saveBill(@PathVariable("id") Long id,Bill bill,Model model) {
-		List<CartItem> listCartItem= cartItemService.getAllProductInCart(id);
+	@PostMapping("/bill")
+	public String saveBill(Bill bill,Model model,HttpServletRequest request) {
+		Customer customer = getAuthenticatedCustomer(request);
+		List<CartItem> listCartItem= cartItemService.getAllProductInCart(customer);
 		bill.setStatus(BillStatus.WaitForConfirmation);
 		billService.saveBill(listCartItem, bill);
 		model.addAttribute("message", "Bạn đã đặt hàng thành công chúng tôi sẽ sớm liên lạc với bạn !");
 		return "cart";		
 	}
 	
-	@PostMapping("/confirmBuy/{id}")
-	public String getFormConfirm(Model model,@PathVariable("id")Long id) {
-		List<CartItem> cartItems= cartItemService.getAllProductInCart(id);
-		Customer customer= customerService.findById(id);
+	@PostMapping("/confirmBuy")
+	public String getFormConfirm(Model model,HttpServletRequest request) {
+		Customer customer = getAuthenticatedCustomer(request);
+		List<CartItem> cartItems= cartItemService.getAllProductInCart(customer);
 		double tienHang=0;
 		double tienPhaiTra=0;
 		for(CartItem c: cartItems) {
@@ -56,5 +60,10 @@ public class BillController {
 		model.addAttribute("address", customer.getAddress1());
 		return "confirmBuy";
 	}
+	
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
+		String email = Utility.getEmailOfAuthenticatedCustomer(request);				
+		return customerService.getCustomerByEmail(email);
+	}	
 
 }

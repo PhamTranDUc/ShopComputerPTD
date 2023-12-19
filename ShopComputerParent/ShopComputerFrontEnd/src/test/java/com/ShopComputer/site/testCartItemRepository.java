@@ -45,13 +45,21 @@ public class testCartItemRepository {
 
     @Test
     public void findAllNotPay(){
-        List<CartItem> listRs= cartItemRepository.findAllNotPay(1L);
+        List<CartItem> listRs= cartItemRepository.findAllNotPay(new Customer(27L));
         for(CartItem c: listRs){
             System.out.println(c);
             System.out.println("so phan tu la : ");
             System.out.println(listRs.size());
         }
 
+    }
+    
+    @Test
+    public void findByCustomer() {
+    	List<CartItem> list= cartItemRepository.findByCustomer(new Customer(1L));
+    	for(CartItem c : list) {
+    		System.out.println(c.getId());
+    	}
     }
 
 }

@@ -30,15 +30,18 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		CustomerOauth2User oauth2User = (CustomerOauth2User) authentication.getPrincipal();
 		String email= oauth2User.getEmail();
 		String name= oauth2User.getName();
-		Customer customer= customerService.getByEmail(email);
+		Customer customer= customerService.getCustomerByEmail(email);
 		System.out.println("email vs name :" + email+ " "+ name);
 		System.out.println(oauth2User.getClientName());
 		AuthenticationType authenType= getAuthenticationType(oauth2User);
+		Long customerId= null;
 		if(customer == null) {
-			customerService.addNewCustomer(email,name,authenType);
+			customerId=customerService.addNewCustomer(email,name,authenType);
 		}else {
 			customerService.updateAuthentication(customer,authenType);
+			customerId= customer.getId();
 		}
+
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	

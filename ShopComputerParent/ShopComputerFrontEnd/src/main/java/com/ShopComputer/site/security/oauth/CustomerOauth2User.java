@@ -3,14 +3,19 @@ package com.ShopComputer.site.security.oauth;
 import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.ShopComputer.EntityCommon.Customer;
+import com.ShopComputer.site.customer.CustomerService;
+
 public class CustomerOauth2User implements OAuth2User{
+	
 	
 	private OAuth2User oauth2User;
 	private String clientName;
-	
+
 	
 
 	public CustomerOauth2User(OAuth2User user, String clientName) {
@@ -48,6 +53,8 @@ public class CustomerOauth2User implements OAuth2User{
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
 	}
+
+
 	
 
 }

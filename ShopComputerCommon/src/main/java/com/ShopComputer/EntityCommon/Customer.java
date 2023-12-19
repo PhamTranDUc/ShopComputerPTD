@@ -236,6 +236,13 @@ public class Customer {
 	public void setAuthenticationType(AuthenticationType authenticationType) {
 		this.authenticationType = authenticationType;
 	}
+
+
+
+	public Customer(Long id) {
+		super();
+		this.id = id;
+	}
 	
 	
 	

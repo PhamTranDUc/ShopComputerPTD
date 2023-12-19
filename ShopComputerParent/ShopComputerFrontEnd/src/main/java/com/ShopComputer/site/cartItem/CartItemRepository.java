@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ShopComputer.EntityCommon.CartItem;
+import com.ShopComputer.EntityCommon.Customer;
 
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long>{
@@ -16,9 +17,9 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long>{
 	public List<CartItem> findByCustomer(@Param("id")Long id);
 	
 	
-	@Query("SELECT c FROM CartItem c WHERE c.customer.id =:id AND c.bill IS NULL")
-	public List<CartItem> findAllNotPay(@Param("id")Long id);
+	  @Query("SELECT c FROM CartItem c WHERE c.customer = :customer AND c.bill IS NULL")
+	    List<CartItem> findAllNotPay(@Param("customer") Customer customer);
 	
-	
+	public List<CartItem> findByCustomer(Customer c);
 
 }

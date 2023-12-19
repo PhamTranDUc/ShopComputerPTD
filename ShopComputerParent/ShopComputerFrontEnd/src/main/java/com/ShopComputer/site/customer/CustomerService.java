@@ -71,11 +71,11 @@ public class CustomerService {
 	public void updateAuthentication(Customer customer, AuthenticationType type) {
 		
 		if(type != customer.getAuthenticationType()) {
-			customerRepository.updateAuthenticationType(customer.getId(), type);
+			 customerRepository.updateAuthenticationType(customer.getId(), type);
 		}
 	}
 	
-	public Customer getByEmail(String email) {
+	public Customer getCustomerByEmail(String email) {
 	    Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
 
 	    if (optionalCustomer.isPresent()) {
@@ -86,7 +86,7 @@ public class CustomerService {
 	}
 
 
-	public void addNewCustomer(String email,String name, AuthenticationType authenticationType) {
+	public Long addNewCustomer(String email,String name, AuthenticationType authenticationType) {
 		Customer customer= new Customer();
 		customer.setFirstName(name);
 		customer.setEmail(email);
@@ -98,7 +98,7 @@ public class CustomerService {
 		customer.setAuthenticationType(authenticationType);
 		customer.setPhoneNumber("");
 		customer.setVerificationCode("");
-		customerRepository.save(customer);		
+		return customerRepository.save(customer).getId();		
 	}
 	
 	

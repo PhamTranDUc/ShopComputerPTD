@@ -1,7 +1,9 @@
 package com.ShopComputer.site;
 
 import com.ShopComputer.EntityCommon.AuthenticationType;
+import com.ShopComputer.EntityCommon.CartItem;
 import com.ShopComputer.EntityCommon.Customer;
+import com.ShopComputer.site.cartItem.CartItemRepository;
 import com.ShopComputer.site.customer.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +65,6 @@ public class testCustomerRepository {
     public void updateAuthenticationType() {
     	customerRepository.updateAuthenticationType(2L, AuthenticationType.DATABASE);
     }
+    
+
 }
